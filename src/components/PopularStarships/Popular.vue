@@ -1,21 +1,25 @@
 <template>
   <section>
     <h1 class="popular-section-header">Popular {{title}}</h1>
-    <div v-if="loading">
-      <img src="../../assets/spinner.svg" />
-      <p>Loading Your Favorite Starships</p>
-    </div>
     <div class="card-container">
-      <div class="card-div" v-for="ship in starships.results" v-bind:key="ship.name">
+      <div class="card-div" v-for="ship in allStarships" v-bind:key="ship.name">
         <img class="card-image" src="../../assets/starship-1.jpg" />
         <div class="content">
           <h3>{{ship.name}}</h3>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, </p>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
           <div class="read-more">Read More</div>
         </div>
       </div>
     </div>
-    <div class="read-more" v-if="!loading">View More Starships</div>
+    <div v-if="loading">
+      <img src="../../assets/spinner.svg" />
+      <p>Loading Your Favorite Starships</p>
+    </div>
+    <button
+      class="view-more"
+      @click="fetchMore()"
+      v-if="!loading && this.starships.next"
+    >View More Starships</button>
   </section>
 </template>
 
@@ -44,6 +48,18 @@ export default {
       ];
       const randomImage = Math.floor(Math.random() * imgArr.length);
       return imgArr[randomImage];
+    },
+    fetchMore() {
+      this.loading = true;
+      fetch(this.starships.next)
+        .then(res => res.json())
+        .then(res => {
+          this.starships = res;
+          this.allStarships.push(...res.results);
+          console.log(this.allStarships);
+          console.log(res);
+          this.loading = false;
+        });
     }
   },
   created() {
@@ -51,7 +67,9 @@ export default {
       .then(res => res.json())
       .then(res => {
         this.starships = res;
-        console.log(this.starships);
+        this.allStarships.push(...res.results);
+        console.log(this.allStarships);
+        console.log(res);
         this.loading = false;
       });
   },
@@ -97,6 +115,10 @@ h3 {
   max-width: 5em;
 
   /* margin: 2em; */
+  background-color: #d8d8d8;
+}
+.view-more {
+  padding: 0.8em 2em;
   background-color: #d8d8d8;
 }
 </style>
