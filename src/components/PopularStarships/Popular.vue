@@ -1,15 +1,21 @@
 <template>
   <section>
     <h1 class="popular-section-header">Popular {{title}}</h1>
+    <div v-if="loading">
+      <img src="../../assets/spinner.svg" />
+      <p>Loading Your Favorite Starships</p>
+    </div>
     <div class="card-container">
       <div class="card-div" v-for="ship in starships.results" v-bind:key="ship.name">
         <img class="card-image" src="../../assets/starship-1.jpg" />
-        <h3>{{ship.name}}</h3>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-        <span>Read More</span>
+        <div class="content">
+          <h3>{{ship.name}}</h3>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, </p>
+          <div class="read-more">Read More</div>
+        </div>
       </div>
     </div>
-    <div class="read-more">View More Starships</div>
+    <div class="read-more" v-if="!loading">View More Starships</div>
   </section>
 </template>
 
@@ -22,7 +28,9 @@ export default {
 
   data() {
     return {
-      starships: {}
+      starships: {},
+      allStarships: [],
+      loading: true
     };
   },
 
@@ -43,8 +51,11 @@ export default {
       .then(res => res.json())
       .then(res => {
         this.starships = res;
+        console.log(this.starships);
+        this.loading = false;
       });
-  }
+  },
+  mounted() {}
 };
 </script>
 
@@ -55,17 +66,37 @@ export default {
   height: 15em;
 }
 .card-div {
-  background-color: #d8d8d8;
   margin: 2em;
+  background-color: #d8d8d8;
 }
 .card-container {
   display: grid;
   grid-template-columns: auto auto auto;
-    width:90%;
-  margin:auto
+  width: 90%;
+  margin: auto;
 }
-.popular-section-header{
-    text-align: center;
-    margin:auto
+.content {
+  text-align: justify;
+  position: relative;
+  left: 10px;
+  bottom: 0.4em;
+  background-color: #f2f2f2;
+  padding: 1em 2em 1em 1em;
+}
+.popular-section-header {
+  text-align: center;
+  margin: auto;
+  font-size: 3em;
+}
+h3 {
+  text-align: left;
+  margin: auto 1em;
+}
+.read-more {
+  padding: 0.8em 2em;
+  max-width: 5em;
+
+  /* margin: 2em; */
+  background-color: #d8d8d8;
 }
 </style>
