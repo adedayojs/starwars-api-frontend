@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Jumbotron />
+    <Starships title="Starships" />
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
 </template>
@@ -8,12 +9,18 @@
 <script>
 import HelloWorld from "./components/HelloWorld.vue";
 import Jumbotron from "./components/Jumbotron/Jumbotron.vue";
+import Starships from "./components/PopularStarships/Popular.vue";
 
 export default {
   name: "app",
   components: {
     HelloWorld,
-    Jumbotron
+    Jumbotron,
+    Starships
+  },
+  methods: {},
+  data: function() {
+    return {};
   }
 };
 </script>
