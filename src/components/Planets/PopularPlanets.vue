@@ -3,16 +3,17 @@
     <h1 class="popular-section-header">Popular {{title}}</h1>
     <div class="card-container">
       <div class="card-div" v-for="ship in allPlanets" v-bind:key="ship.name">
-        <img :src="randomImage" class="planet-card-image" />
+        <img :src="randomImage()" class="planet-card-image" />
       </div>
     </div>
+    <!-- Show Spinner if It is loading and show error if loading failed -->
     <div v-if="loading">
       <img src="/img/spinner.svg" />
       <p>Loading Your Favorite Planets</p>
     </div>
     <div v-if="loadError">
-      <img src="/img/spinner.svg" />
-      <p>Unable to Fetch Planets</p>
+      <img src="/img/load-failed.svg" />
+      <h4>Unable to Fetch Planets</h4>
     </div>
     <button
       class="view-more"
@@ -37,18 +38,7 @@ export default {
       loadError: false
     };
   },
-  computed: {
-    randomImage() {
-      const imgArr = [
-        "/img/planet-1.jpg",
-        "/img/planet-3.jpg",
-        "/img/planet-2.jpg",
-        "/img/planet-4.jpg"
-      ];
-      const randomImage = Math.floor(Math.random() * imgArr.length);
-      return require(imgArr[randomImage]);
-    }
-  },
+  computed: {},
   methods: {
     fetchMore() {
       this.loading = true;
@@ -61,6 +51,16 @@ export default {
           console.log(res);
           this.loading = false;
         });
+    },
+    randomImage() {
+      const imgArr = [
+        "/img/planet-1.jpg",
+        "/img/planet-3.jpg",
+        "/img/planet-2.jpg"
+      ];
+      const randomImage = Math.floor(Math.random() * imgArr.length);
+      console.log(randomImage);
+      return imgArr[randomImage];
     }
   },
   created() {
@@ -75,6 +75,7 @@ export default {
       })
       .catch(err => {
         this.loading = false;
+        this.loadError = true;
       });
   },
   mounted() {}
@@ -102,6 +103,7 @@ export default {
   width: 90%;
   margin: auto;
 }
+
 .content {
   text-align: justify;
   position: relative;
@@ -112,7 +114,7 @@ export default {
 }
 .popular-section-header {
   text-align: center;
-  margin: auto;
+  margin: 1em auto;
   font-size: 3em;
 }
 h3 {
@@ -127,7 +129,14 @@ h3 {
   background-color: #d8d8d8;
 }
 .view-more {
-  padding: 0.8em 2em;
-  background-color: #d8d8d8;
+  padding: 0.8em 5em;
+  background-color: #fff;
+  border: solid #000 2px;
+  border-radius: 7px;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+h4 {
+  font-size: 1em;
 }
 </style>
