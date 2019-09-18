@@ -1,30 +1,12 @@
 <template>
   <div id="app">
-    <Jumbotron />
-    <Starships title="Starships" />
-    <Planets title="Planets" />
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <router-view />
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-import Jumbotron from "./components/Jumbotron/Jumbotron.vue";
-import Starships from "./components/PopularStarships/Popular.vue";
-import Planets from "./components/Planets/PopularPlanets.vue";
-
 export default {
-  name: "app",
-  components: {
-    HelloWorld,
-    Jumbotron,
-    Starships,
-    Planets
-  },
-  methods: {},
-  data: function() {
-    return {};
-  }
+  name: "app"
 };
 </script>
 
