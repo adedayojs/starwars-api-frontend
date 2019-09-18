@@ -5,8 +5,10 @@
       <div class="card-div" v-for="ship in allStarships" v-bind:key="ship.name">
         <img class="card-image" src="../../assets/starship-1.jpg" />
         <div class="content">
-          <h3>{{ship.name}}</h3>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
+          <div>
+            <h3>{{ship.name}}</h3>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
+          </div>
           <div class="read-more">Read More</div>
         </div>
       </div>
@@ -19,7 +21,7 @@
       class="view-more"
       @click="fetchMore()"
       v-if="!loading && this.starships.next"
-    >View More Starships</button>
+    >VIEW MORE STARSHIPS</button>
   </section>
 </template>
 
@@ -103,7 +105,7 @@ export default {
 }
 .popular-section-header {
   text-align: center;
-  margin: auto;
+  margin: 1em auto;
   font-size: 3em;
 }
 h3 {
@@ -113,12 +115,18 @@ h3 {
 .read-more {
   padding: 0.8em 2em;
   max-width: 5em;
+  margin: auto;
+  /* float: right; */
 
   /* margin: 2em; */
   background-color: #d8d8d8;
 }
 .view-more {
-  padding: 0.8em 2em;
-  background-color: #d8d8d8;
+  padding: 0.8em 5em;
+  background-color: #fff;
+  border: solid #000 2px;
+  border-radius: 7px;
+  font-size: 1.5em;
+  cursor: pointer;
 }
 </style>
