@@ -3,17 +3,16 @@
     <h1 class="popular-section-header">Popular {{title}}</h1>
     <div class="card-container">
       <div class="card-div" v-for="ship in allPlanets" v-bind:key="ship.name">
-        <img class="card-image" src="../../assets/planet-1.jpg" />
-        <div class="content">
-          <h3>{{ship.name}}</h3>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
-          <div class="read-more">Read More</div>
-        </div>
+        <img :src="randomImage" class="planet-card-image" />
       </div>
     </div>
     <div v-if="loading">
-      <img src="../../assets/spinner.svg" />
+      <img src="/img/spinner.svg" />
       <p>Loading Your Favorite Planets</p>
+    </div>
+    <div v-if="loadError">
+      <img src="/img/spinner.svg" />
+      <p>Unable to Fetch Planets</p>
     </div>
     <button
       class="view-more"
@@ -34,21 +33,23 @@ export default {
     return {
       planets: {},
       allPlanets: [],
-      loading: true
+      loading: true,
+      loadError: false
     };
   },
-
-  methods: {
+  computed: {
     randomImage() {
       const imgArr = [
-        "../../assets/planet-1.jpg",
-        "../../assets/planet-3.jpg",
-        "../../assets/planet-2.jpg",
-        "../../assets/planet-4.jpg"
+        "/img/planet-1.jpg",
+        "/img/planet-3.jpg",
+        "/img/planet-2.jpg",
+        "/img/planet-4.jpg"
       ];
       const randomImage = Math.floor(Math.random() * imgArr.length);
-      return imgArr[randomImage];
-    },
+      return require(imgArr[randomImage]);
+    }
+  },
+  methods: {
     fetchMore() {
       this.loading = true;
       fetch(this.planets.next)
@@ -71,6 +72,9 @@ export default {
         console.log(this.allPlanets);
         console.log(res);
         this.loading = false;
+      })
+      .catch(err => {
+        this.loading = false;
       });
   },
   mounted() {}
@@ -83,6 +87,10 @@ export default {
   width: 100%;
   height: 15em;
   /* object-fit: unset; */
+}
+.planet-card-image {
+  width: 100%;
+  height: 100%;
 }
 .card-div {
   margin: 2em;
