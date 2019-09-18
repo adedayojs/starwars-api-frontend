@@ -1,0 +1,125 @@
+<template>
+  <section>
+    <h1 class="popular-section-header">Popular {{title}}</h1>
+    <div class="card-container">
+      <div class="card-div" v-for="ship in allPlanets" v-bind:key="ship.name">
+        <img class="card-image" src="../../assets/planet-1.jpg" />
+        <div class="content">
+          <h3>{{ship.name}}</h3>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
+          <div class="read-more">Read More</div>
+        </div>
+      </div>
+    </div>
+    <div v-if="loading">
+      <img src="../../assets/spinner.svg" />
+      <p>Loading Your Favorite Planets</p>
+    </div>
+    <button
+      class="view-more"
+      @click="fetchMore()"
+      v-if="!loading && this.planets.next"
+    >View More Planets</button>
+  </section>
+</template>
+
+<script>
+export default {
+  name: "Planets",
+  props: {
+    title: String
+  },
+
+  data() {
+    return {
+      planets: {},
+      allPlanets: [],
+      loading: true
+    };
+  },
+
+  methods: {
+    randomImage() {
+      const imgArr = [
+        "../../assets/planet-1.jpg",
+        "../../assets/planet-3.jpg",
+        "../../assets/planet-2.jpg",
+        "../../assets/planet-4.jpg"
+      ];
+      const randomImage = Math.floor(Math.random() * imgArr.length);
+      return imgArr[randomImage];
+    },
+    fetchMore() {
+      this.loading = true;
+      fetch(this.planets.next)
+        .then(res => res.json())
+        .then(res => {
+          this.planets = res;
+          this.allPlanets.push(...res.results);
+          console.log(this.allPlanets);
+          console.log(res);
+          this.loading = false;
+        });
+    }
+  },
+  created() {
+    fetch("https://swapi.co/api/planets")
+      .then(res => res.json())
+      .then(res => {
+        this.planets = res;
+        this.allPlanets.push(...res.results);
+        console.log(this.allPlanets);
+        console.log(res);
+        this.loading = false;
+      });
+  },
+  mounted() {}
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+.card-image {
+  width: 100%;
+  height: 15em;
+  /* object-fit: unset; */
+}
+.card-div {
+  margin: 2em;
+  background-color: #d8d8d8;
+}
+.card-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  width: 90%;
+  margin: auto;
+}
+.content {
+  text-align: justify;
+  position: relative;
+  left: 10px;
+  bottom: 0.4em;
+  background-color: #f2f2f2;
+  padding: 1em 2em 1em 1em;
+}
+.popular-section-header {
+  text-align: center;
+  margin: auto;
+  font-size: 3em;
+}
+h3 {
+  text-align: left;
+  margin: auto 1em;
+}
+.read-more {
+  padding: 0.8em 2em;
+  max-width: 5em;
+
+  /* margin: 2em; */
+  background-color: #d8d8d8;
+}
+.view-more {
+  padding: 0.8em 2em;
+  background-color: #d8d8d8;
+}
+</style>
