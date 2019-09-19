@@ -9,6 +9,11 @@ export default new Router({
   linkExactActiveClass: 'isActive',
   routes: [
     { path: '/', name: 'App', component: Home },
-    { path: '/planets', name: 'Planets', component: Planets, props:{} }
+    {
+      path: '/planets',
+      name: 'Planets',
+      component: Planets,
+      props: { title: 'Planets' }
+    }
   ]
 });
