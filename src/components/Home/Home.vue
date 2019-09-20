@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Jumbotron />
+    <!-- <Jumbotron /> -->
     <Starships title="Starships" />
     <Planets title="Planets" />
   </div>

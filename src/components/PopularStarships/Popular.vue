@@ -58,8 +58,6 @@ export default {
         .then(res => {
           this.starships = res;
           this.allStarships.push(...res.results);
-          console.log(this.allStarships);
-          console.log(res);
           this.loading = false;
         });
     }
