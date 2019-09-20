@@ -7,15 +7,13 @@
 </template>
 
 <script>
-import HelloWorld from "../HelloWorld.vue";
-import Jumbotron from "../Jumbotron/Jumbotron.vue";
-import Starships from "../PopularStarships/Popular.vue";
-import Planets from "../Planets/PopularPlanets.vue";
+import Jumbotron from "../Jumbotron.vue";
+import Starships from "../Popular/PopularStarships";
+import Planets from "../Popular/PopularPlanets";
 
 export default {
   name: "app",
   components: {
-    HelloWorld,
     Jumbotron,
     Starships,
     Planets
