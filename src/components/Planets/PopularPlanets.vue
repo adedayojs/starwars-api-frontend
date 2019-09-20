@@ -12,7 +12,8 @@
       <p>Loading Your Favorite Planets</p>
     </div>
     <div v-if="loadError">
-      <img src="/img/load-failed.svg" />
+      <Icon fillColor="red" size="10em" />
+      <!-- <img src="/img/load-failed.svg" /> -->
       <h4>Unable to Fetch Planets</h4>
     </div>
     <button
@@ -24,10 +25,14 @@
 </template>
 
 <script>
+import Icon from "vue-material-design-icons/AlphaX";
 export default {
   name: "Planets",
   props: {
     title: String
+  },
+  components:{
+    Icon
   },
 
   data() {
@@ -138,5 +143,6 @@ h3 {
 }
 h4 {
   font-size: 1em;
+  color:red
 }
 </style>
