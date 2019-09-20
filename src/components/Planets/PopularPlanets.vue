@@ -46,6 +46,7 @@ export default {
   computed: {},
   methods: {
     fetchMore() {
+      this.loadError = false
       this.loading = true;
       fetch(this.planets.next)
         .then(res => res.json())
@@ -55,7 +56,10 @@ export default {
           console.log(this.allPlanets);
           console.log(res);
           this.loading = false;
-        });
+        }).catch(err => {
+        this.loading = false;
+        this.loadError = true;
+      });
     },
     randomImage() {
       const imgArr = [
