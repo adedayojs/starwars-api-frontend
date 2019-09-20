@@ -2,75 +2,80 @@
   <section>
     <h1 class="popular-section-header">Popular {{title}}</h1>
     <div class="card-container">
-      <div class="card-div" v-for="ship in allStarships" v-bind:key="ship.name">
-        <img class="card-image" src="../../assets/starship-1.jpg" />
-        <div class="content">
-          <div>
-            <h3>{{ship.name}}</h3>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
-          </div>
-          <div class="read-more">Read More</div>
-        </div>
+      <div class="card-div" v-for="ship in allPlanets" v-bind:key="ship.name">
+        <img :src="randomImage()" class="planet-card-image" />
       </div>
     </div>
+    <!-- Show Spinner if It is loading and show error if loading failed -->
     <div v-if="loading">
-      <img src="../../assets/spinner.svg" />
-      <p>Loading Your Favorite Starships</p>
+      <img src="/img/spinner.svg" />
+      <p>Loading Your Favorite Planets</p>
+    </div>
+    <div v-if="loadError">
+      <img src="/img/load-failed.svg" />
+      <h4>Unable to Fetch Planets</h4>
     </div>
     <button
       class="view-more"
       @click="fetchMore()"
-      v-if="!loading && this.starships.next"
-    >VIEW MORE STARSHIPS</button>
+      v-if="!loading && this.planets.next"
+    >View More Planets</button>
   </section>
 </template>
 
 <script>
 export default {
-  name: "Starship",
+  name: "Planets",
   props: {
     title: String
   },
 
   data() {
     return {
-      starships: {},
-      allStarships: [],
-      loading: true
+      planets: {},
+      allPlanets: [],
+      loading: true,
+      loadError: false
     };
   },
-
+  computed: {},
   methods: {
-    randomImage() {
-      const imgArr = [
-        "../../assets/starship-1.jpg",
-        "../../assets/starship-3.jpg",
-        "../../assets/starship-2.jpg",
-        "../../assets/starship-4.jpg"
-      ];
-      const randomImage = Math.floor(Math.random() * imgArr.length);
-      return imgArr[randomImage];
-    },
     fetchMore() {
       this.loading = true;
-      fetch(this.starships.next)
+      fetch(this.planets.next)
         .then(res => res.json())
         .then(res => {
-          this.starships = res;
-          this.allStarships.push(...res.results);
+          this.planets = res;
+          this.allPlanets.push(...res.results);
+          console.log(this.allPlanets);
+          console.log(res);
           this.loading = false;
         });
+    },
+    randomImage() {
+      const imgArr = [
+        "/img/planet-1.jpg",
+        "/img/planet-3.jpg",
+        "/img/planet-2.jpg"
+      ];
+      const randomImage = Math.floor(Math.random() * imgArr.length);
+      console.log(randomImage);
+      return imgArr[randomImage];
     }
   },
   created() {
-    fetch("https://swapi.co/api/starships")
+    fetch("https://swapi.co/api/planets")
       .then(res => res.json())
       .then(res => {
-        this.starships = res;
-        this.allStarships.push(...res.results);
-        console.log(this.allStarships);
+        this.planets = res;
+        this.allPlanets.push(...res.results);
+        console.log(this.allPlanets);
         console.log(res);
         this.loading = false;
+      })
+      .catch(err => {
+        this.loading = false;
+        this.loadError = true;
       });
   },
   mounted() {}
@@ -82,6 +87,11 @@ export default {
 .card-image {
   width: 100%;
   height: 15em;
+  /* object-fit: unset; */
+}
+.planet-card-image {
+  width: 100%;
+  height: 100%;
 }
 .card-div {
   margin: 2em;
@@ -93,6 +103,7 @@ export default {
   width: 90%;
   margin: auto;
 }
+
 .content {
   text-align: justify;
   position: relative;
@@ -113,8 +124,6 @@ h3 {
 .read-more {
   padding: 0.8em 2em;
   max-width: 5em;
-  margin: auto;
-  /* float: right; */
 
   /* margin: 2em; */
   background-color: #d8d8d8;
@@ -126,5 +135,8 @@ h3 {
   border-radius: 7px;
   font-size: 1.5em;
   cursor: pointer;
+}
+h4 {
+  font-size: 1em;
 }
 </style>
