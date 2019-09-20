@@ -1,12 +1,17 @@
 <template>
   <div id="app">
+    <Jumbotron />
     <router-view />
   </div>
 </template>
 
 <script>
+import Jumbotron from "./components/Jumbotron/Jumbotron.vue";
 export default {
-  name: "app"
+  name: "app",
+  components: {
+    Jumbotron
+  }
 };
 </script>
 
