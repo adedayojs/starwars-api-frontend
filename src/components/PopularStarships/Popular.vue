@@ -63,6 +63,7 @@ export default {
     },
     fetchMore() {
       this.loading = true;
+      this.loadError = false
       fetch(this.starships.next)
         .then(res => res.json())
         .then(res => {
