@@ -17,6 +17,11 @@
       <img src="../../assets/spinner.svg" />
       <p>Loading Your Favorite Starships</p>
     </div>
+    <div v-if="loadError">
+      <Icon fillColor="red" size="10em" />
+      <!-- <img src="/img/load-failed.svg" /> -->
+      <h4>Unable to Fetch Starship</h4>
+    </div>
     <button
       class="view-more"
       @click="fetchMore()"
@@ -26,17 +31,22 @@
 </template>
 
 <script>
+import Icon from "vue-material-design-icons/AlphaX";
+
 export default {
   name: "Starship",
   props: {
     title: String
   },
-
+  components: {
+    Icon
+  },
   data() {
     return {
       starships: {},
       allStarships: [],
-      loading: true
+      loading: true,
+      loadError: false
     };
   },
 
@@ -59,7 +69,10 @@ export default {
           this.starships = res;
           this.allStarships.push(...res.results);
           this.loading = false;
-        });
+        }).catch(err => {
+        this.loading = false;
+        this.loadError = true;
+      });
     }
   },
   created() {
@@ -71,6 +84,10 @@ export default {
         console.log(this.allStarships);
         console.log(res);
         this.loading = false;
+      })
+      .catch(err => {
+        this.loading = false;
+        this.loadError = true;
       });
   },
   mounted() {}
@@ -126,5 +143,9 @@ h3 {
   border-radius: 7px;
   font-size: 1.5em;
   cursor: pointer;
+}
+h4 {
+  font-size: 1em;
+  color:red
 }
 </style>
