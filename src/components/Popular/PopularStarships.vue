@@ -3,7 +3,7 @@
     <h1 class="popular-section-header">Popular {{title}}</h1>
     <div class="card-container">
       <div class="card-div" v-for="ship in allStarships" v-bind:key="ship.name">
-        <img class="card-image" src="../../assets/starship-1.jpg" />
+        <img class="card-image" :src="randomImage()" />
         <div class="content">
           <div>
             <h3>{{ship.name}}</h3>
@@ -14,7 +14,7 @@
       </div>
     </div>
     <div v-if="loading">
-      <img src="../../assets/spinner.svg" />
+      <img src="/img/spinner.svg" />
       <p>Loading Your Favorite Starships</p>
     </div>
     <div v-if="loadError">
@@ -53,10 +53,10 @@ export default {
   methods: {
     randomImage() {
       const imgArr = [
-        "../../assets/starship-1.jpg",
-        "../../assets/starship-3.jpg",
-        "../../assets/starship-2.jpg",
-        "../../assets/starship-4.jpg"
+        "/img/assets/starship-1.jpg",
+        "/img/assets/starship-3.jpg",
+        "/img/assets/starship-2.jpg",
+        "/img/assets/starship-4.jpg"
       ];
       const randomImage = Math.floor(Math.random() * imgArr.length);
       return imgArr[randomImage];
