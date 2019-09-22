@@ -2,7 +2,7 @@
   <section>
     <h1 class="popular-section-header">Popular {{title}}</h1>
     <div class="card-container">
-      <div class="card-div" v-for="ship in allPlanets" v-bind:key="ship.name">
+      <div class="card-div" v-for="ship in planets" v-bind:key="ship.name">
         <img :src="randomImage()" class="planet-card-image" />
       </div>
     </div>
@@ -12,55 +12,35 @@
       <p>Loading Your Favorite Planets</p>
     </div>
     <div v-if="loadError">
-      <Icon fillColor="red" size="10em" />
-      <!-- <img src="/img/load-failed.svg" /> -->
+      <ErrorIcon fillColor="red" size="10em" />
       <h4>Unable to Fetch Planets</h4>
     </div>
-    <button
-      class="view-more"
-      @click="fetchMore()"
-      v-if="!loading && this.planets.next"
-    >View More Planets</button>
+    <router-link to="planets">
+      <button class="view-more" v-if="!loading && this.planets.next">View More Planets</button>
+    </router-link>
   </section>
 </template>
 
 <script>
-import Icon from "vue-material-design-icons/AlphaX";
+import ErrorIcon from "vue-material-design-icons/AlphaX";
 export default {
   name: "Planets",
   props: {
     title: String
   },
-  components:{
-    Icon
+  components: {
+    ErrorIcon
   },
 
   data() {
     return {
       planets: {},
-      allPlanets: [],
       loading: true,
       loadError: false
     };
   },
   computed: {},
   methods: {
-    fetchMore() {
-      this.loadError = false
-      this.loading = true;
-      fetch(this.planets.next)
-        .then(res => res.json())
-        .then(res => {
-          this.planets = res;
-          this.allPlanets.push(...res.results);
-          console.log(this.allPlanets);
-          console.log(res);
-          this.loading = false;
-        }).catch(err => {
-        this.loading = false;
-        this.loadError = true;
-      });
-    },
     randomImage() {
       const imgArr = [
         "/img/planet-1.jpg",
@@ -68,7 +48,6 @@ export default {
         "/img/planet-2.jpg"
       ];
       const randomImage = Math.floor(Math.random() * imgArr.length);
-      console.log(randomImage);
       return imgArr[randomImage];
     }
   },
@@ -76,18 +55,14 @@ export default {
     fetch("https://swapi.co/api/planets")
       .then(res => res.json())
       .then(res => {
-        this.planets = res;
-        this.allPlanets.push(...res.results);
-        console.log(this.allPlanets);
-        console.log(res);
+        this.planets = res.results.splice(0, 3);
         this.loading = false;
       })
       .catch(err => {
         this.loading = false;
         this.loadError = true;
       });
-  },
-  mounted() {}
+  }
 };
 </script>
 
@@ -147,6 +122,6 @@ h3 {
 }
 h4 {
   font-size: 1em;
-  color:red
+  color: red;
 }
 </style>
