@@ -22,11 +22,9 @@
       <!-- <img src="/img/load-failed.svg" /> -->
       <h4>Unable to Fetch Starship</h4>
     </div>
-    <button
-      class="view-more"
-      @click="fetchMore()"
-      v-if="!loading && this.starships.next"
-    >VIEW MORE STARSHIPS</button>
+    <router-link to="starships">
+      <button class="view-more" v-if="!loading">View More Starships</button>
+    </router-link>
   </section>
 </template>
 
@@ -53,27 +51,30 @@ export default {
   methods: {
     randomImage() {
       const imgArr = [
-        "/img/assets/starship-1.jpg",
-        "/img/assets/starship-3.jpg",
-        "/img/assets/starship-2.jpg",
-        "/img/assets/starship-4.jpg"
+        "/img/starship-1.jpg",
+        "/img/starship-3.jpg",
+        "/img/starship-2.jpg",
+        "/img/starship-4.jpg",
+        "/img/starship-5.jpg",
+        "/img/starship-6.jpg"
       ];
       const randomImage = Math.floor(Math.random() * imgArr.length);
       return imgArr[randomImage];
     },
     fetchMore() {
       this.loading = true;
-      this.loadError = false
+      this.loadError = false;
       fetch(this.starships.next)
         .then(res => res.json())
         .then(res => {
           this.starships = res;
           this.allStarships.push(...res.results);
           this.loading = false;
-        }).catch(err => {
-        this.loading = false;
-        this.loadError = true;
-      });
+        })
+        .catch(err => {
+          this.loading = false;
+          this.loadError = true;
+        });
     }
   },
   created() {
@@ -147,6 +148,6 @@ h3 {
 }
 h4 {
   font-size: 1em;
-  color:red
+  color: red;
 }
 </style>
