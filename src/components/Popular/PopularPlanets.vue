@@ -16,7 +16,7 @@
       <h4>Unable to Fetch Planets</h4>
     </div>
     <router-link to="planets">
-      <button class="view-more" v-if="!loading && this.planets.next">View More Planets</button>
+      <button class="view-more" v-if="!loading">View More Planets</button>
     </router-link>
   </section>
 </template>
