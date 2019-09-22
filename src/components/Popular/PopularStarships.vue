@@ -23,7 +23,7 @@
       <h4>Unable to Fetch Starship</h4>
     </div>
     <router-link to="starships">
-      <button class="view-more" v-if="!loading">View More Starships</button>
+      <button class="view-more" v-if="!loading && !loadError">View More Starships</button>
     </router-link>
   </section>
 </template>
