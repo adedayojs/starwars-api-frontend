@@ -7,7 +7,7 @@
         <div>
           <h2>Name Of Character</h2>
           <h5>Title of Character</h5>
-          <p>{{character.gender == 'female'?'Her':'His'}} name is {{character.name}}</p>
+          <p>{{character.gender == 'female'?'Her':'His'}} name is {{character.name}}. Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</p>
         </div>
       </div>
     </div>
@@ -17,9 +17,11 @@
       <p>Loading Your Favorite Characters</p>
     </div>
     <div v-if="loadError">
-      <ErrorIcon fillColor="red" size="10em" />
-      <h4>Unable to Fetch Characters</h4>
-      <!-- <h4 @click="created">Click To Retry</h4> -->
+      <ErrorIcon fillColor="red" size="5em" />
+      <br />
+      <button @click="retry()">
+        <h4>Unable to Fetch Characters. Click To Retry</h4>
+      </button>
     </div>
     <router-link :to="title">
       <button class="view-more" v-if="!loadError && !loading">View More Characters</button>
@@ -56,6 +58,21 @@ export default {
       ];
       const randomImage = Math.floor(Math.random() * imgArr.length);
       return imgArr[randomImage];
+    },
+    retry() {
+      this.loading = true;
+      this.loadError = false;
+      fetch("https://swapi.co/api/people")
+        .then(res => res.json())
+        .then(res => {
+          this.characters = res.results.splice(0, 4);
+          this.loading = false;
+        })
+        .catch(err => {
+          this.loading = false;
+          console.log(this.loading);
+          this.loadError = true;
+        });
     }
   },
   created() {
@@ -88,6 +105,8 @@ export default {
 .card-div {
   margin: 2em;
   background-color: #d8d8d8;
+  display: grid;
+  grid-template-columns: 60% 40%;
 }
 .card-container {
   display: grid;
