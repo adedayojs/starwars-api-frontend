@@ -2,7 +2,7 @@
   <section>
     <h1 class="popular-section-header">Popular {{title}}</h1>
     <div class="card-container">
-      <div class="card-div" v-for="ship in allStarships" v-bind:key="ship.name">
+      <div class="card-div" v-for="ship in starships" v-bind:key="ship.name">
         <img class="card-image" :src="randomImage()" />
         <div class="content">
           <div>
@@ -41,8 +41,7 @@ export default {
   },
   data() {
     return {
-      starships: {},
-      allStarships: [],
+      starships: [],
       loading: true,
       loadError: false
     };
@@ -60,39 +59,21 @@ export default {
       ];
       const randomImage = Math.floor(Math.random() * imgArr.length);
       return imgArr[randomImage];
-    },
-    fetchMore() {
-      this.loading = true;
-      this.loadError = false;
-      fetch(this.starships.next)
-        .then(res => res.json())
-        .then(res => {
-          this.starships = res;
-          this.allStarships.push(...res.results);
-          this.loading = false;
-        })
-        .catch(err => {
-          this.loading = false;
-          this.loadError = true;
-        });
     }
   },
   created() {
     fetch("https://swapi.co/api/starships")
       .then(res => res.json())
       .then(res => {
-        this.starships = res;
-        this.allStarships.push(...res.results);
-        console.log(this.allStarships);
-        console.log(res);
+        this.starships = res.results.splice(0, 6);
         this.loading = false;
       })
       .catch(err => {
         this.loading = false;
         this.loadError = true;
+        return err;
       });
-  },
-  mounted() {}
+  }
 };
 </script>
 
@@ -100,7 +81,7 @@ export default {
 <style scoped>
 .card-image {
   width: 100%;
-  height: 15em;
+  height: 20em;
 }
 .card-div {
   margin: 2em;
