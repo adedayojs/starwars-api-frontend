@@ -1,17 +1,30 @@
 <template>
-  <div class="jumbotron">
-    <div class="input">
-      <select @change="selection">
-        <option value="characters">Characters</option>
-        <option value="planets">Planets</option>
-        <option value="starships">StarShips</option>
-      </select>
-      <input type="text" placeholder="Search by anything" v-model="search" @keyup="logger" />
+  <section class="jumbotron">
+    <div class="logo">
+      <h1>
+        STAR
+        <br />WARS
+      </h1>
+      <h3>Directory</h3>
     </div>
-    <router-link :to="`${this.selected}?query=${this.search}`">
-      <button type="submit" @click="searchHandler">Search</button>
-    </router-link>
-  </div>
+    <p>
+      Find Your Favourite Character, Films, Species,
+      <br />Starships and Planets
+    </p>
+    <form style="display:flex">
+      <div class="input">
+        <select @change="selection">
+          <option value="characters">Characters</option>
+          <option value="planets">Planets</option>
+          <option value="starships">StarShips</option>
+        </select>
+        <input type="text" placeholder="Search by anything" v-model="search" @keyup="logger" />
+      </div>
+      <router-link style="margin-left:1em" :to="`${this.selected}?query=${this.search}`">
+        <button type="submit" @click="searchHandler">Search</button>
+      </router-link>
+    </form>
+  </section>
 </template>
 
 <script>
@@ -50,10 +63,17 @@ export default {
 .jumbotron {
   height: 50vh;
   background: url("/img/hero-banner.jpg");
-  font-size: 2em;
+  font-size: 1em;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: #d8d8d8;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  border-bottom: 3px solid white;
 }
 .search {
   height: 100%;
@@ -79,11 +99,10 @@ input:focus {
   outline: none;
 }
 button {
-  font-size: 0.7em;
+  font-size: 1em;
   background: #d8d8d8;
   border: none;
   padding: 0.5em;
-  margin-left: 1em;
 }
 button:hover {
   cursor: pointer;
