@@ -3,6 +3,7 @@
     <Jumbotron />
     <Starships title="Starships" />
     <Planets title="Planets" />
+    <Characters title="Characters" />
   </div>
 </template>
 
@@ -10,13 +11,15 @@
 import Jumbotron from "../Jumbotron.vue";
 import Starships from "../Popular/PopularStarships";
 import Planets from "../Popular/PopularPlanets";
+import Characters from "../Popular/PopularCharacters";
 
 export default {
   name: "app",
   components: {
     Jumbotron,
     Starships,
-    Planets
+    Planets,
+    Characters
   },
   methods: {},
   data: function() {
