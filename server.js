@@ -6,3 +6,7 @@ app.use(serveStatic(__dirname + '/dist'));
 var port = process.env.PORT || 5000;
 app.listen(port);
 console.log('server started ' + port);
+
+app.use(function (req, res) {
+    res.status(404).json({err:'error'})
+})
