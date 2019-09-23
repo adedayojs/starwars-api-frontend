@@ -15,7 +15,7 @@
       </div>
     </div>
     <div v-if="loading">
-      <img src="/img/assets/spinner.svg" />
+      <img src="/img/spinner.svg" />
       <p>Loading Your Favorite Starships</p>
     </div>
     <div v-if="loadError">
@@ -23,11 +23,13 @@
       <!-- <img src="/img/load-failed.svg" /> -->
       <h4>Unable to Fetch Starship</h4>
     </div>
-    <button
-      class="view-more"
-      @click="fetchMore()"
-      v-if="!loading && this.starships.next"
-    >VIEW MORE STARSHIPS</button>
+    <div style="margin:5em" v-if="!loading && this.starships.next">
+      <span style="margin-right:1em;">{{this.start+1}} - {{this.end}} of {{this.starships.count}}</span>
+      <button class="view-more">
+        <span style="border-right:solid 2px #d8d8d8" @click="previousItem()">Prev</span>
+        <span @click="nextItem()">Next</span>
+      </button>
+    </div>
   </section>
 </template>
 
@@ -49,45 +51,48 @@ export default {
       starships: {},
       allStarships: [],
       loading: true,
-      loadError: false
+      loadError: false,
+      start: 0,
+      end: 6
     };
   },
 
   methods: {
     randomImage() {
       const imgArr = [
-        "/img/assets/starship-1.jpg",
-        "/img/assets/starship-3.jpg",
-        "/img/assets/starship-2.jpg",
-        "/img/assets/starship-4.jpg"
+        "/img/starship-1.jpg",
+        "/img/starship-3.jpg",
+        "/img/starship-2.jpg",
+        "/img/starship-4.jpg"
       ];
       const randomImage = Math.floor(Math.random() * imgArr.length);
       return imgArr[randomImage];
     },
-    fetchMore() {
+    nextItem() {
       this.loading = true;
       this.loadError = false;
       fetch(this.starships.next)
         .then(res => res.json())
         .then(res => {
           this.starships = res;
-          this.allStarships.push(...res.results);
+          this.allStarships = res.results.slice(this.start, this.end);
           this.loading = false;
         })
         .catch(err => {
           this.loading = false;
           this.loadError = true;
         });
-    }
+    },
+    previousItem() {}
   },
   created() {
     fetch("https://swapi.co/api/starships")
       .then(res => res.json())
       .then(res => {
         this.starships = res;
-        this.allStarships.push(...res.results);
+        this.allStarships = this.starships.results.slice(this.start, this.end);
+        console.log(this.starships);
         console.log(this.allStarships);
-        console.log(res);
         this.loading = false;
       })
       .catch(err => {
@@ -136,21 +141,26 @@ h3 {
   padding: 0.8em 2em;
   max-width: 5em;
   margin: auto;
-  /* float: right; */
-
-  /* margin: 2em; */
   background-color: #d8d8d8;
 }
 .view-more {
-  padding: 0.8em 5em;
+  padding: 0.5em 0em;
   background-color: #fff;
-  border: solid #000 2px;
+  border: solid #d8d8d8 2px;
   border-radius: 7px;
-  font-size: 1.5em;
+  font-size: 1em;
   cursor: pointer;
 }
 h4 {
   font-size: 1em;
   color: red;
+}
+span {
+  padding: 0.3em;
+  font-size: 2em;
+}
+button span:hover {
+  box-shadow: #d8d8d8 2px 2px 0.3em;
+  background: #f2f2f2;
 }
 </style>
