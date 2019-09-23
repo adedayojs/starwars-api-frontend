@@ -1,11 +1,10 @@
 <template>
   <section class="jumbotron">
+    <img src="/img/logo.png" class="topmost-logo" />
+
     <div class="logo">
-      <h1>
-        STAR
-        <br />WARS
-      </h1>
-      <h3>Directory</h3>
+      <img src="/img/logo.png" />
+      <h3 style="font-weight:900;font-size:2em;margin-left:0.5em">Directory</h3>
     </div>
     <p>
       Find Your Favourite Character, Films, Species,
@@ -73,7 +72,16 @@ export default {
 .logo {
   display: flex;
   align-items: center;
+  color: #fff;
   border-bottom: 3px solid white;
+}
+img {
+  width: 8em;
+  height: 3em;
+}
+.topmost-logo {
+  align-self: flex-start;
+  margin: -5em auto 2em 1em;
 }
 .search {
   height: 100%;
