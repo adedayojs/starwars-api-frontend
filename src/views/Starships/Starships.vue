@@ -18,11 +18,15 @@
       <img src="/img/spinner.svg" />
       <p>Loading Your Favorite Starships</p>
     </div>
+
     <div v-if="loadError">
-      <Icon fillColor="red" size="10em" />
-      <!-- <img src="/img/load-failed.svg" /> -->
-      <h4>Unable to Fetch Starship</h4>
+      <ErrorIcon fillColor="red" size="5em" />
+      <br />
+      <button @click="retry()">
+        <h4>Unable to Fetch Starships. Click To Retry</h4>
+      </button>
     </div>
+
     <div style="margin:5em" v-if="!loading && this.starships.next">
       <span style="margin-right:1em;">{{this.start}} - {{this.end}} of {{this.starships.count}}</span>
       <button class="view-more">
@@ -38,7 +42,7 @@
 </template>
 
 <script>
-import Icon from "vue-material-design-icons/AlphaX";
+import ErrorIcon from "vue-material-design-icons/AlphaX";
 import Header from "../Header";
 
 export default {
@@ -47,7 +51,7 @@ export default {
     title: String
   },
   components: {
-    Icon,
+    ErrorIcon,
     Header
   },
   data() {
@@ -105,6 +109,21 @@ export default {
             this.starships = res;
             this.loading = false;
           }
+        })
+        .catch(err => {
+          this.loading = false;
+          this.loadError = true;
+          return err;
+        });
+    },
+    retry() {
+      fetch("https://swapi.co/api/starships")
+        .then(res => res.json())
+        .then(res => {
+          this.starships = res;
+          this.loading = false;
+          this.end = res.results.length;
+          this.start = 1;
         })
         .catch(err => {
           this.loading = false;
