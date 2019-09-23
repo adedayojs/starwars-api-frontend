@@ -2,7 +2,7 @@
   <section>
     <h1 class="popular-section-header">Popular {{title}}</h1>
     <div class="card-container">
-      <div class="card-div" v-for="ship in allStarships" v-bind:key="ship.name">
+      <div class="card-div" v-for="ship in starships" v-bind:key="ship.name">
         <img class="card-image" :src="randomImage()" />
         <div class="content">
           <div>
@@ -22,11 +22,9 @@
       <!-- <img src="/img/load-failed.svg" /> -->
       <h4>Unable to Fetch Starship</h4>
     </div>
-    <button
-      class="view-more"
-      @click="fetchMore()"
-      v-if="!loading && this.starships.next"
-    >VIEW MORE STARSHIPS</button>
+    <router-link to="starships">
+      <button class="view-more" v-if="!loading && !loadError">View More Starships</button>
+    </router-link>
   </section>
 </template>
 
@@ -43,8 +41,7 @@ export default {
   },
   data() {
     return {
-      starships: {},
-      allStarships: [],
+      starships: [],
       loading: true,
       loadError: false
     };
@@ -53,45 +50,30 @@ export default {
   methods: {
     randomImage() {
       const imgArr = [
-        "/img/assets/starship-1.jpg",
-        "/img/assets/starship-3.jpg",
-        "/img/assets/starship-2.jpg",
-        "/img/assets/starship-4.jpg"
+        "/img/starship-1.jpg",
+        "/img/starship-3.jpg",
+        "/img/starship-2.jpg",
+        "/img/starship-4.jpg",
+        "/img/starship-5.jpg",
+        "/img/starship-6.jpg"
       ];
       const randomImage = Math.floor(Math.random() * imgArr.length);
       return imgArr[randomImage];
-    },
-    fetchMore() {
-      this.loading = true;
-      this.loadError = false
-      fetch(this.starships.next)
-        .then(res => res.json())
-        .then(res => {
-          this.starships = res;
-          this.allStarships.push(...res.results);
-          this.loading = false;
-        }).catch(err => {
-        this.loading = false;
-        this.loadError = true;
-      });
     }
   },
   created() {
     fetch("https://swapi.co/api/starships")
       .then(res => res.json())
       .then(res => {
-        this.starships = res;
-        this.allStarships.push(...res.results);
-        console.log(this.allStarships);
-        console.log(res);
+        this.starships = res.results.splice(0, 6);
         this.loading = false;
       })
       .catch(err => {
         this.loading = false;
         this.loadError = true;
+        return err;
       });
-  },
-  mounted() {}
+  }
 };
 </script>
 
@@ -99,7 +81,7 @@ export default {
 <style scoped>
 .card-image {
   width: 100%;
-  height: 15em;
+  height: 20em;
 }
 .card-div {
   margin: 2em;
@@ -147,6 +129,6 @@ h3 {
 }
 h4 {
   font-size: 1em;
-  color:red
+  color: red;
 }
 </style>
