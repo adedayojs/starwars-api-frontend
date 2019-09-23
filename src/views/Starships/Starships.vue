@@ -27,7 +27,7 @@
       <span style="margin-right:1em;">{{this.start}} - {{this.end}} of {{this.starships.count}}</span>
       <button class="view-more">
         <span style="border-right:solid 2px #d8d8d8" @click="previousItem()">Prev</span>
-        <span @click="nextItem()">Next</span>
+        <span v-if="this.starship.next" @click="nextItem()">Next</span>
       </button>
     </div>
   </section>
