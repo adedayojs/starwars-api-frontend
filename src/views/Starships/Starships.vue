@@ -26,7 +26,11 @@
     <div style="margin:5em" v-if="!loading && this.starships.next">
       <span style="margin-right:1em;">{{this.start}} - {{this.end}} of {{this.starships.count}}</span>
       <button class="view-more">
-        <span style="border-right:solid 2px #d8d8d8" @click="previousItem()">Prev</span>
+        <span
+          v-if="this.starships.previous"
+          style="border-right:solid 2px #d8d8d8"
+          @click="previousItem()"
+        >Prev</span>
         <span v-if="this.starship.next" @click="nextItem()">Next</span>
       </button>
     </div>
@@ -84,7 +88,30 @@ export default {
           return err;
         });
     },
-    previousItem() {}
+    previousItem() {
+      this.loading = true;
+      this.loadError = false;
+      fetch(this.starships.previous)
+        .then(res => res.json())
+        .then(res => {
+          if (!this.starships.next) {
+            this.end = res.count - this.starships.results.length;
+            this.start = this.end - res.results.length;
+            this.starships = res;
+            this.loading = false;
+          } else {
+            this.start -= res.results.length;
+            this.end -= res.results.length;
+            this.starships = res;
+            this.loading = false;
+          }
+        })
+        .catch(err => {
+          this.loading = false;
+          this.loadError = true;
+          return err;
+        });
+    }
   },
   created() {
     fetch("https://swapi.co/api/starships")
