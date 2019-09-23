@@ -3,7 +3,7 @@
     <Header />
     <h1 class="popular-section-header">Popular {{title}}</h1>
     <div class="card-container">
-      <div class="card-div" v-for="ship in allStarships" v-bind:key="ship.name">
+      <div class="card-div" v-for="ship in starships.results" v-bind:key="ship.name">
         <img class="card-image" :src="randomImage()" />
         <div class="content">
           <div>
@@ -24,7 +24,7 @@
       <h4>Unable to Fetch Starship</h4>
     </div>
     <div style="margin:5em" v-if="!loading && this.starships.next">
-      <span style="margin-right:1em;">{{this.start+1}} - {{this.end}} of {{this.starships.count}}</span>
+      <span style="margin-right:1em;">{{this.start}} - {{this.end}} of {{this.starships.count}}</span>
       <button class="view-more">
         <span style="border-right:solid 2px #d8d8d8" @click="previousItem()">Prev</span>
         <span @click="nextItem()">Next</span>
@@ -48,12 +48,11 @@ export default {
   },
   data() {
     return {
-      starships: {},
-      allStarships: [],
+      starships: [],
       loading: true,
       loadError: false,
-      start: 0,
-      end: 6
+      start: 1,
+      end: 0
     };
   },
 
@@ -74,13 +73,15 @@ export default {
       fetch(this.starships.next)
         .then(res => res.json())
         .then(res => {
+          this.start += res.results.length;
+          this.end += res.results.length;
           this.starships = res;
-          this.allStarships = res.results.slice(this.start, this.end);
           this.loading = false;
         })
         .catch(err => {
           this.loading = false;
           this.loadError = true;
+          return err;
         });
     },
     previousItem() {}
@@ -90,17 +91,15 @@ export default {
       .then(res => res.json())
       .then(res => {
         this.starships = res;
-        this.allStarships = this.starships.results.slice(this.start, this.end);
-        console.log(this.starships);
-        console.log(this.allStarships);
         this.loading = false;
+        this.end = res.results.length;
       })
       .catch(err => {
         this.loading = false;
         this.loadError = true;
+        return err;
       });
-  },
-  mounted() {}
+  }
 };
 </script>
 
