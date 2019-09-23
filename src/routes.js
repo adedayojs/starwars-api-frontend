@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Home from './components/Home/Home.vue';
-import Planets from './components/Planets/PopularPlanets.vue';
+import Planets from './views/Planets/Planets.vue'
 import Router from 'vue-router';
 Vue.use(Router);
 

@@ -2,83 +2,92 @@
   <section>
     <h1 class="popular-section-header">Popular {{title}}</h1>
     <div class="card-container">
-      <div class="card-div" v-for="ship in allPlanets" v-bind:key="ship.name">
+      <div class="card-div" v-for="character in characters" v-bind:key="character.name">
         <img :src="randomImage()" class="planet-card-image" />
+        <div>
+          <h2>Name Of Character</h2>
+          <h5>Title of Character</h5>
+          <p>{{character.gender == 'female'?'Her':'His'}} name is {{character.name}}. Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</p>
+        </div>
       </div>
     </div>
     <!-- Show Spinner if It is loading and show error if loading failed -->
     <div v-if="loading">
       <img src="/img/spinner.svg" />
-      <p>Loading Your Favorite Planets</p>
+      <p>Loading Your Favorite Characters</p>
     </div>
     <div v-if="loadError">
-      <img src="/img/load-failed.svg" />
-      <h4>Unable to Fetch Planets</h4>
+      <ErrorIcon fillColor="red" size="5em" />
+      <br />
+      <button @click="retry()">
+        <h4>Unable to Fetch Characters. Click To Retry</h4>
+      </button>
     </div>
-    <button
-      class="view-more"
-      @click="fetchMore()"
-      v-if="!loading && this.planets.next"
-    >View More Planets</button>
+    <router-link :to="title">
+      <button class="view-more" v-if="!loadError && !loading">View More Characters</button>
+    </router-link>
   </section>
 </template>
 
 <script>
+import ErrorIcon from "vue-material-design-icons/AlphaX";
 export default {
-  name: "Planets",
+  name: "Characters",
   props: {
     title: String
+  },
+  components: {
+    ErrorIcon
   },
 
   data() {
     return {
-      planets: {},
-      allPlanets: [],
+      characters: [],
       loading: true,
       loadError: false
     };
   },
   computed: {},
   methods: {
-    fetchMore() {
-      this.loading = true;
-      fetch(this.planets.next)
-        .then(res => res.json())
-        .then(res => {
-          this.planets = res;
-          this.allPlanets.push(...res.results);
-          console.log(this.allPlanets);
-          console.log(res);
-          this.loading = false;
-        });
-    },
     randomImage() {
       const imgArr = [
-        "/img/planet-1.jpg",
-        "/img/planet-3.jpg",
-        "/img/planet-2.jpg"
+        "/img/character-1.jpg",
+        "/img/character-3.jpg",
+        "/img/character-2.jpg",
+        "/img/character-4.jpg"
       ];
       const randomImage = Math.floor(Math.random() * imgArr.length);
-      console.log(randomImage);
       return imgArr[randomImage];
+    },
+    retry() {
+      this.loading = true;
+      this.loadError = false;
+      fetch("https://swapi.co/api/people")
+        .then(res => res.json())
+        .then(res => {
+          this.characters = res.results.splice(0, 4);
+          this.loading = false;
+        })
+        .catch(err => {
+          this.loading = false;
+          console.log(this.loading);
+          this.loadError = true;
+        });
     }
   },
   created() {
-    fetch("https://swapi.co/api/planets")
+    fetch("https://swapi.co/api/people")
       .then(res => res.json())
       .then(res => {
-        this.planets = res;
-        this.allPlanets.push(...res.results);
-        console.log(this.allPlanets);
-        console.log(res);
+        this.characters = res.results.splice(0, 4);
         this.loading = false;
       })
       .catch(err => {
         this.loading = false;
+        console.log(this.loading);
         this.loadError = true;
       });
-  },
-  mounted() {}
+  }
 };
 </script>
 
@@ -87,7 +96,7 @@ export default {
 .card-image {
   width: 100%;
   height: 15em;
-  /* object-fit: unset; */
+  object-fit: unset;
 }
 .planet-card-image {
   width: 100%;
@@ -96,10 +105,12 @@ export default {
 .card-div {
   margin: 2em;
   background-color: #d8d8d8;
+  display: grid;
+  grid-template-columns: 60% 40%;
 }
 .card-container {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: auto auto;
   width: 90%;
   margin: auto;
 }
@@ -138,5 +149,6 @@ h3 {
 }
 h4 {
   font-size: 1em;
+  color: red;
 }
 </style>

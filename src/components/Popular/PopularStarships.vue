@@ -2,8 +2,8 @@
   <section>
     <h1 class="popular-section-header">Popular {{title}}</h1>
     <div class="card-container">
-      <div class="card-div" v-for="ship in allStarships" v-bind:key="ship.name">
-        <img class="card-image" src="../../assets/starship-1.jpg" />
+      <div class="card-div" v-for="ship in starships" v-bind:key="ship.name">
+        <img class="card-image" :src="randomImage()" />
         <div class="content">
           <div>
             <h3>{{ship.name}}</h3>
@@ -14,66 +14,66 @@
       </div>
     </div>
     <div v-if="loading">
-      <img src="../../assets/spinner.svg" />
+      <img src="/img/spinner.svg" />
       <p>Loading Your Favorite Starships</p>
     </div>
-    <button
-      class="view-more"
-      @click="fetchMore()"
-      v-if="!loading && this.starships.next"
-    >VIEW MORE STARSHIPS</button>
+    <div v-if="loadError">
+      <Icon fillColor="red" size="10em" />
+      <!-- <img src="/img/load-failed.svg" /> -->
+      <h4>Unable to Fetch Starship</h4>
+    </div>
+    <router-link to="starships">
+      <button class="view-more" v-if="!loading && !loadError">View More Starships</button>
+    </router-link>
   </section>
 </template>
 
 <script>
+import Icon from "vue-material-design-icons/AlphaX";
+
 export default {
   name: "Starship",
   props: {
     title: String
   },
-
+  components: {
+    Icon
+  },
   data() {
     return {
-      starships: {},
-      allStarships: [],
-      loading: true
+      starships: [],
+      loading: true,
+      loadError: false
     };
   },
 
   methods: {
     randomImage() {
       const imgArr = [
-        "../../assets/starship-1.jpg",
-        "../../assets/starship-3.jpg",
-        "../../assets/starship-2.jpg",
-        "../../assets/starship-4.jpg"
+        "/img/starship-1.jpg",
+        "/img/starship-3.jpg",
+        "/img/starship-2.jpg",
+        "/img/starship-4.jpg",
+        "/img/starship-5.jpg",
+        "/img/starship-6.jpg"
       ];
       const randomImage = Math.floor(Math.random() * imgArr.length);
       return imgArr[randomImage];
-    },
-    fetchMore() {
-      this.loading = true;
-      fetch(this.starships.next)
-        .then(res => res.json())
-        .then(res => {
-          this.starships = res;
-          this.allStarships.push(...res.results);
-          this.loading = false;
-        });
     }
   },
   created() {
     fetch("https://swapi.co/api/starships")
       .then(res => res.json())
       .then(res => {
-        this.starships = res;
-        this.allStarships.push(...res.results);
-        console.log(this.allStarships);
-        console.log(res);
+        this.starships = res.results.splice(0, 6);
         this.loading = false;
+      })
+      .catch(err => {
+        this.loading = false;
+        this.loadError = true;
+        return err;
       });
-  },
-  mounted() {}
+  }
 };
 </script>
 
@@ -81,7 +81,7 @@ export default {
 <style scoped>
 .card-image {
   width: 100%;
-  height: 15em;
+  height: 20em;
 }
 .card-div {
   margin: 2em;
@@ -126,5 +126,9 @@ h3 {
   border-radius: 7px;
   font-size: 1.5em;
   cursor: pointer;
+}
+h4 {
+  font-size: 1em;
+  color: red;
 }
 </style>
