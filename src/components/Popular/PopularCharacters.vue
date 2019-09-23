@@ -4,10 +4,14 @@
     <div class="card-container">
       <div class="card-div" v-for="character in characters" v-bind:key="character.name">
         <img :src="randomImage()" class="planet-card-image" />
-        <div>
-          <h2>Name Of Character</h2>
-          <h5>Title of Character</h5>
-          <p>{{character.gender == 'female'?'Her':'His'}} name is {{character.name}}. Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</p>
+        <div class="info">
+          <h2>{{character.name}}</h2>
+          <span>Title of Character</span>
+          <p>
+            {{character.gender == 'male'?'His':'Her'}} name is {{character.name}}. {{character.gender == 'male'?'He':'She'}} was born in {{character.birth_year}}. {{character.gender == 'male'?'His':'Her'}} height is {{character.height}}cm. {{character.gender == 'male'?'He':'She'}} has a mass of {{character.mass}}kg. {{character.gender == 'male'?'His':'Her'}} skin color is {{character.skin_color}} and eyecolor is {{character.eye_color}}.<br><br>
+            {{character.name}} has {{character.vehicles.length>0?character.vehicles.length:'No'}} Vehicle and has {{character.starships.length>0?character.starships.length:'No'}} starships
+            <router-link :to="`${title}/`" style="color:black; font-weight:800;">Read More</router-link>
+          </p>
         </div>
       </div>
     </div>
@@ -96,17 +100,25 @@ export default {
 .card-image {
   width: 100%;
   height: 15em;
-  object-fit: unset;
 }
 .planet-card-image {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 .card-div {
   margin: 2em;
   background-color: #d8d8d8;
+  height: 30em;
   display: grid;
   grid-template-columns: 60% 40%;
+}
+.info {
+  padding: 5em 1em;
+  text-align: left;
+}
+h2 {
+  margin: 0;
 }
 .card-container {
   display: grid;
