@@ -96,6 +96,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+@media screen and (max-width: 400px) {
+  .card-container {
+    display: block;
+    width: 90%;
+    margin: auto;
+  }
+}
 .card-image {
   width: 100%;
   height: 20em;
