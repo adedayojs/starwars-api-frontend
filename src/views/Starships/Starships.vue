@@ -27,15 +27,15 @@
       </button>
     </div>
 
-    <div style="margin:5em" v-if="!loading && this.starships.next">
-      <span style="margin-right:1em;">{{this.start}} - {{this.end}} of {{this.starships.count}}</span>
+    <div style="margin:5em" v-if="!loading">
+      <span style="margin-right:1em;">{{start}} - {{end}} of {{starships.count}}</span>
       <button class="view-more">
         <span
-          v-if="this.starships.previous"
+          v-if="starships.previous"
           style="border-right:solid 2px #d8d8d8"
           @click="previousItem()"
         >Prev</span>
-        <span v-if="this.starship.next" @click="nextItem()">Next</span>
+        <span v-if="starships.next" @click="nextItem()">Next</span>
       </button>
     </div>
   </section>
@@ -81,7 +81,7 @@ export default {
       fetch(this.starships.next)
         .then(res => res.json())
         .then(res => {
-          this.start += res.results.length;
+          this.start = this.end+1;
           this.end += res.results.length;
           this.starships = res;
           this.loading = false;
@@ -139,6 +139,7 @@ export default {
         this.starships = res;
         this.loading = false;
         this.end = res.results.length;
+        console.log(res);
       })
       .catch(err => {
         this.loading = false;

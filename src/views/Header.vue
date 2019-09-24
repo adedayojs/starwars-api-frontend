@@ -12,16 +12,9 @@
     </p>
     <form style="display:flex">
       <div class="input">
-        <select @change="selection">
-          <option value="characters">Characters</option>
-          <option value="planets">Planets</option>
-          <option value="starships">StarShips</option>
-        </select>
         <input type="text" placeholder="Search by anything" v-model="search" @keyup="logger" />
       </div>
-      <router-link style="margin-left:1em" :to="`${this.selected}?query=${this.search}`">
-        <button type="submit" @click="searchHandler">Search</button>
-      </router-link>
+      <button @click="searchHandler">Search</button>
     </form>
   </section>
 </template>
@@ -35,24 +28,24 @@ export default {
       selected: "characters"
     };
   },
+
   methods: {
     logger: function() {
       console.log(this.search);
     },
-    searchHandler() {
-      this.$route.query;
-      console.log(this.selection);
-      console.log(this.$route);
+    searchHandler(e) {
+      e.preventDefault();
+      this.display;
     },
     selection() {
       let select = document.getElementsByTagName("select")[0];
       this.selected = select.value;
-      console.log(this.selected);
     }
   },
   computed: {},
   props: {
-    msg: String
+    msg: String,
+    display: Array
   }
 };
 </script>
@@ -114,5 +107,6 @@ button {
 }
 button:hover {
   cursor: pointer;
+  box-shadow: #fff 5px 5px 1em;
 }
 </style>
