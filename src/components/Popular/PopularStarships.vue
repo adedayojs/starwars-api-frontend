@@ -18,9 +18,11 @@
       <p>Loading Your Favorite Starships</p>
     </div>
     <div v-if="loadError">
-      <Icon fillColor="red" size="10em" />
-      <!-- <img src="/img/load-failed.svg" /> -->
-      <h4>Unable to Fetch Starship</h4>
+      <ErrorIcon fillColor="red" :size="50" />
+      <br />
+      <button @click="retry()">
+        <h4>Unable to Fetch Starships. Click To Retry</h4>
+      </button>
     </div>
     <router-link to="starships">
       <button class="view-more" v-if="!loading && !loadError">View More Starships</button>
@@ -29,7 +31,7 @@
 </template>
 
 <script>
-import Icon from "vue-material-design-icons/AlphaX";
+import ErrorIcon from "vue-material-design-icons/AlphaX";
 
 export default {
   name: "Starship",
@@ -37,7 +39,7 @@ export default {
     title: String
   },
   components: {
-    Icon
+    ErrorIcon
   },
   data() {
     return {
@@ -59,6 +61,21 @@ export default {
       ];
       const randomImage = Math.floor(Math.random() * imgArr.length);
       return imgArr[randomImage];
+    },
+    retry() {
+      this.loading = true;
+      this.loadError = false;
+      fetch("https://swapi.co/api/starships")
+        .then(res => res.json())
+        .then(res => {
+          this.starships = res.results.splice(0, 6);
+          this.loading = false;
+        })
+        .catch(err => {
+          this.loading = false;
+          this.loadError = true;
+          return err;
+        });
     }
   },
   created() {

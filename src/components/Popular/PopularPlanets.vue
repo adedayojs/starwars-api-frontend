@@ -12,8 +12,11 @@
       <p>Loading Your Favorite Planets</p>
     </div>
     <div v-if="loadError">
-      <ErrorIcon fillColor="red" size="10em" />
-      <h4>Unable to Fetch Planets</h4>
+      <ErrorIcon fillColor="red" :size="5" />
+      <br />
+      <button @click="retry()">
+        <h4>Unable to Fetch Planets. Click To Retry</h4>
+      </button>
     </div>
     <router-link to="planets">
       <button class="view-more" v-if="!loading && !loadError">View More Planets</button>
@@ -49,6 +52,18 @@ export default {
       ];
       const randomImage = Math.floor(Math.random() * imgArr.length);
       return imgArr[randomImage];
+    },
+    retry() {
+      fetch("https://swapi.co/api/planets")
+        .then(res => res.json())
+        .then(res => {
+          this.planets = res.results.splice(0, 3);
+          this.loading = false;
+        })
+        .catch(err => {
+          this.loading = false;
+          this.loadError = true;
+        });
     }
   },
   created() {
