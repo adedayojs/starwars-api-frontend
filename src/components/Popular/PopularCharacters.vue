@@ -21,7 +21,7 @@
       <p>Loading Your Favorite Characters</p>
     </div>
     <div v-if="loadError">
-      <ErrorIcon fillColor="red" size="5em" />
+      <ErrorIcon fillColor="red" :size="5" />
       <br />
       <button @click="retry()">
         <h4>Unable to Fetch Characters. Click To Retry</h4>
@@ -74,7 +74,6 @@ export default {
         })
         .catch(err => {
           this.loading = false;
-          console.log(this.loading);
           this.loadError = true;
         });
     }
