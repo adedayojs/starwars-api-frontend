@@ -14,12 +14,7 @@
     </p>
     <form style="display:flex">
       <div class="input">
-        <input
-          type="text"
-          placeholder="Search by Name"
-          v-model="search"
-          @keyup="searchHandler()"
-        />
+        <input type="text" placeholder="Search by Name" v-model="search" @keyup="searchHandler()" />
       </div>
       <button @click.prevent="searchHandler()">Search</button>
     </form>
@@ -45,7 +40,7 @@ export default {
   },
   props: {
     msg: String
-  },
+  }
 };
 </script>
 
