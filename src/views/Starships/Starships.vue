@@ -152,13 +152,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-@media screen and (max-width: 400px) {
-  .card-container {
-    display: block;
-    width: 90%;
-    margin: auto;
-  }
-}
+
 
 .card-image {
   width: 100%;
@@ -216,5 +210,12 @@ span {
 button span:hover {
   box-shadow: #d8d8d8 2px 2px 0.3em;
   background: #f2f2f2;
+}
+@media screen and (max-width: 400px) {
+  .card-container {
+    display: block;
+    width: 90%;
+    margin: auto;
+  }
 }
 </style>
