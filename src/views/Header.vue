@@ -1,6 +1,8 @@
 <template>
   <section class="jumbotron">
-    <img src="/img/logo.png" class="topmost-logo" />
+    <router-link to="/" class="topmost-logo">
+      <img src="/img/logo.png" />
+    </router-link>
 
     <div class="logo">
       <img src="/img/logo.png" />
@@ -14,7 +16,7 @@
       <div class="input">
         <input type="text" placeholder="Search by anything" v-model="search" @keyup="logger" />
       </div>
-      <button @click="searchHandler">Search</button>
+      <button @click="searchHandler(e,search)">Search</button>
     </form>
   </section>
 </template>
@@ -24,28 +26,29 @@ export default {
   name: "Jumbotron",
   data() {
     return {
-      search: "",
-      selected: "characters"
+      search: ""
     };
   },
 
   methods: {
     logger: function() {
       console.log(this.search);
-    },
-    searchHandler(e) {
-      e.preventDefault();
-      this.display;
-    },
-    selection() {
-      let select = document.getElementsByTagName("select")[0];
-      this.selected = select.value;
     }
   },
-  computed: {},
+  computed: {
+    // searchHandler(e) {
+    //   // e.preventDefault();
+    //   this.display = this.display.filter(val =>
+    //     JSON.stringify(val).match(this.search)
+    //   );
+    // }
+  },
   props: {
     msg: String,
-    display: Array
+    searchHandler: Function
+  },
+  mounted() {
+    console.log(this.searchHandler);
   }
 };
 </script>
