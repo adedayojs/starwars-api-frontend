@@ -1,6 +1,6 @@
 <template>
   <section>
-    <Header />
+    <Header :searchHandler="searchHandler" :msg="'Adedunye'" />
     <h1 class="popular-section-header">Popular {{title}}</h1>
     <div class="card-container">
       <div class="card-div" v-for="ship in starships.results" v-bind:key="ship.name">
@@ -60,7 +60,14 @@ export default {
       loading: true,
       loadError: false,
       start: 1,
-      end: 0
+      end: 0,
+      searchHandler(e, search) {
+        alert("pause Jare");
+        e.preventDefault();
+        this.starships = this.starships.filter(val =>
+          JSON.stringify(val).match(search)
+        );
+      }
     };
   },
 
@@ -81,7 +88,7 @@ export default {
       fetch(this.starships.next)
         .then(res => res.json())
         .then(res => {
-          this.start = this.end+1;
+          this.start = this.end + 1;
           this.end += res.results.length;
           this.starships = res;
           this.loading = false;
@@ -146,12 +153,17 @@ export default {
         this.loadError = true;
         return err;
       });
+  },
+  mounted() {
+    console.log(this.searchHandler);
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+
 .card-image {
   width: 100%;
   height: 15em;
@@ -208,5 +220,12 @@ span {
 button span:hover {
   box-shadow: #d8d8d8 2px 2px 0.3em;
   background: #f2f2f2;
+}
+@media screen and (max-width: 400px) {
+  .card-container {
+    display: block;
+    width: 90%;
+    margin: auto;
+  }
 }
 </style>
