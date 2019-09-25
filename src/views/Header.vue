@@ -14,9 +14,14 @@
     </p>
     <form style="display:flex">
       <div class="input">
-        <input type="text" placeholder="Search by anything" v-model="search" @keyup="logger" />
+        <input
+          type="text"
+          placeholder="Search by Name"
+          v-model="search"
+          @keyup="searchHandler()"
+        />
       </div>
-      <button @click="searchHandler(e,search)">Search</button>
+      <button @click.prevent="searchHandler()">Search</button>
     </form>
   </section>
 </template>
@@ -33,23 +38,14 @@ export default {
   methods: {
     logger: function() {
       console.log(this.search);
+    },
+    searchHandler() {
+      this.$emit("searcher", this.search);
     }
   },
-  computed: {
-    // searchHandler(e) {
-    //   // e.preventDefault();
-    //   this.display = this.display.filter(val =>
-    //     JSON.stringify(val).match(this.search)
-    //   );
-    // }
-  },
   props: {
-    msg: String,
-    searchHandler: Function
+    msg: String
   },
-  mounted() {
-    console.log(this.searchHandler);
-  }
 };
 </script>
 
