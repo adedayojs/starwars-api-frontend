@@ -8,7 +8,9 @@
           <h2>{{character.name}}</h2>
           <span>Title of Character</span>
           <p>
-            {{character.gender == 'male'?'His':'Her'}} name is {{character.name}}. {{character.gender == 'male'?'He':'She'}} was born in {{character.birth_year}}. {{character.gender == 'male'?'His':'Her'}} height is {{character.height}}cm. {{character.gender == 'male'?'He':'She'}} has a mass of {{character.mass}}kg. {{character.gender == 'male'?'His':'Her'}} skin color is {{character.skin_color}} and eyecolor is {{character.eye_color}}.<br><br>
+            {{character.gender == 'male'?'His':'Her'}} name is {{character.name}}. {{character.gender == 'male'?'He':'She'}} was born in {{character.birth_year}}. {{character.gender == 'male'?'His':'Her'}} height is {{character.height}}cm. {{character.gender == 'male'?'He':'She'}} has a mass of {{character.mass}}kg. {{character.gender == 'male'?'His':'Her'}} skin color is {{character.skin_color}} and eyecolor is {{character.eye_color}}.
+            <br />
+            <br />
             {{character.name}} has {{character.vehicles.length>0?character.vehicles.length:'No'}} Vehicle and has {{character.starships.length>0?character.starships.length:'No'}} starships
             <router-link :to="`${title}/`" style="color:black; font-weight:800;">Read More</router-link>
           </p>
@@ -161,5 +163,19 @@ h3 {
 h4 {
   font-size: 1em;
   color: red;
+}
+@media screen and (max-width: 400px) {
+  .card-container {
+    display: block;
+    width: 90%;
+    margin: auto;
+  }
+  .card-div {
+    margin: auto auto 2em auto;
+    background-color: #d8d8d8;
+    height: auto;
+    display: grid;
+    grid-template-columns: 60% 40%;
+  }
 }
 </style>
