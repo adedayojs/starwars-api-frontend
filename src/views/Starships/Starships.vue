@@ -1,6 +1,6 @@
 <template>
   <section>
-    <Header />
+    <Header :searchHandler="searchHandler" :msg="'Adedunye'" />
     <h1 class="popular-section-header">Popular {{title}}</h1>
     <div class="card-container">
       <div class="card-div" v-for="ship in starships.results" v-bind:key="ship.name">
@@ -60,7 +60,14 @@ export default {
       loading: true,
       loadError: false,
       start: 1,
-      end: 0
+      end: 0,
+      searchHandler(e, search) {
+        alert("pause Jare");
+        e.preventDefault();
+        this.starships = this.starships.filter(val =>
+          JSON.stringify(val).match(search)
+        );
+      }
     };
   },
 
@@ -146,6 +153,9 @@ export default {
         this.loadError = true;
         return err;
       });
+  },
+  mounted() {
+    console.log(this.searchHandler);
   }
 };
 </script>
