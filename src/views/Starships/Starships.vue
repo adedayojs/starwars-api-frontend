@@ -61,7 +61,8 @@ export default {
       loadError: false,
       start: 1,
       end: 0,
-      filteredStarships: []
+      filteredStarships: [],
+      currentSearch: ""
     };
   },
 
@@ -86,14 +87,17 @@ export default {
           this.end += res.results.length;
           this.starships = res;
           this.loading = false;
+          this.searchHandler(this.currentSearch); // Filter again based on current input and current response
         })
         .catch(err => {
           this.loading = false;
           this.loadError = true;
+          console.log(err);
           return err;
         });
     },
     previousItem() {
+      this.filteredStarships = []; // Empty Filtered Array
       this.loading = true;
       this.loadError = false;
       fetch(this.starships.previous)
@@ -101,14 +105,16 @@ export default {
         .then(res => {
           if (!this.starships.next) {
             this.end = res.count - this.starships.results.length;
-            this.start = this.end - res.results.length;
+            this.start -= res.results.length;
             this.starships = res;
             this.loading = false;
+            this.searchHandler(this.currentSearch); // Filter again based on input and current response
           } else {
             this.start -= res.results.length;
             this.end -= res.results.length;
             this.starships = res;
             this.loading = false;
+            this.searchHandler(this.currentSearch); // Filter again based on input and current response
           }
         })
         .catch(err => {
@@ -138,6 +144,7 @@ export default {
       this.filteredStarships = this.starships.results.filter(val =>
         val.name.match(search)
       );
+      this.currentSearch = search;
     }
   },
 
@@ -154,8 +161,8 @@ export default {
         this.loading = false;
         this.loadError = true;
         return err;
-      })
-  },
+      });
+  }
 };
 </script>
 
@@ -171,7 +178,7 @@ export default {
 }
 .card-container {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 33% 33% 33%;
   width: 90%;
   margin: auto;
 }
