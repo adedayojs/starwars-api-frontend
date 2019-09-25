@@ -1,9 +1,9 @@
 <template>
   <section>
-    <Header :searchHandler="searchHandler" :msg="'Adedunye'" />
-    <h1 class="popular-section-header">Popular {{title}}</h1>
+    <Header v-on:searcher="searchHandler" />
+    <h1 class="popular-section-header">{{title}}</h1>
     <div class="card-container">
-      <div class="card-div" v-for="ship in starships.results" v-bind:key="ship.name">
+      <div class="card-div" v-for="ship in filteredStarships" v-bind:key="ship.name">
         <img class="card-image" :src="randomImage()" />
         <div class="content">
           <div>
@@ -20,14 +20,14 @@
     </div>
 
     <div v-if="loadError">
-      <ErrorIcon fillColor="red" size="5em" />
+      <ErrorIcon fillColor="red" :size="50" />
       <br />
       <button @click="retry()">
         <h4>Unable to Fetch Starships. Click To Retry</h4>
       </button>
     </div>
 
-    <div style="margin:5em" v-if="!loading">
+    <div style="margin:5em" v-if="!loading && !loadError">
       <span style="margin-right:1em;">{{start}} - {{end}} of {{starships.count}}</span>
       <button class="view-more">
         <span
@@ -61,13 +61,7 @@ export default {
       loadError: false,
       start: 1,
       end: 0,
-      searchHandler(e, search) {
-        alert("pause Jare");
-        e.preventDefault();
-        this.starships = this.starships.filter(val =>
-          JSON.stringify(val).match(search)
-        );
-      }
+      filteredStarships: []
     };
   },
 
@@ -124,6 +118,8 @@ export default {
         });
     },
     retry() {
+      this.loading = true;
+      this.loadError = false;
       fetch("https://swapi.co/api/starships")
         .then(res => res.json())
         .then(res => {
@@ -137,8 +133,14 @@ export default {
           this.loadError = true;
           return err;
         });
+    },
+    searchHandler(search) {
+      this.filteredStarships = this.starships.results.filter(val =>
+        val.name.match(search)
+      );
     }
   },
+
   created() {
     fetch("https://swapi.co/api/starships")
       .then(res => res.json())
@@ -146,24 +148,19 @@ export default {
         this.starships = res;
         this.loading = false;
         this.end = res.results.length;
-        console.log(res);
+        this.filteredStarships = this.starships.results;
       })
       .catch(err => {
         this.loading = false;
         this.loadError = true;
         return err;
-      });
+      })
   },
-  mounted() {
-    console.log(this.searchHandler);
-  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-
 .card-image {
   width: 100%;
   height: 15em;
