@@ -157,20 +157,21 @@ h3 {
   max-width: 5em;
   background-color: #d8d8d8;
 }
+
+/********** Loader Buttons**********/
 .view-more {
-  padding: 0.8em 5em;
+  padding: 0.5em 2em;
   background-color: #fff;
   border: solid #000 2px;
   border-radius: 7px;
-  font-size: 1.5em;
+  font-size: 1em;
   cursor: pointer;
   font-weight: 900;
 }
 .view-more:hover {
   background-color: #000;
   color: #fff;
-  font-weight: 700;
-  transition: ease-in-out 1.2s;
+  transition: ease-in-out 0.5s;
 }
 h4 {
   font-size: 1em;
