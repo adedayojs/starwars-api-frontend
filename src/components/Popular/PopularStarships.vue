@@ -9,7 +9,10 @@
             <h3>{{ship.name}}</h3>
             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
           </div>
-          <div class="read-more">Read More</div>
+
+          <router-link class="link read-more" :to="`/starships/${ship.name}`">
+            <div>Read More --></div>
+          </router-link>
         </div>
       </div>
     </div>
@@ -96,7 +99,26 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.read-more {
+  padding: 1em;
+  max-width: 5em;
+  align-self: flex-end;
+  background-color: #d8d8d8;
+  flex-basis: auto;
+  max-width: max-content;
+}
+.link {
+  text-decoration: none;
+  color: rgb(3, 3, 3);
+  font-weight: 900;
+}
+.link:hover {
+  color: #fff;
+  box-shadow: 1em 1em 1em;
+  background-color: #000;
+  transform: scale(1.1);
+  transition: all ease-in-out 1s;
+}
 .card-image {
   width: 100%;
   height: 20em;
@@ -107,11 +129,13 @@ export default {
 }
 .card-container {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 33% 33% 33%;
   width: 90%;
   margin: auto;
 }
 .content {
+  display: flex;
+  flex-direction: column;
   text-align: justify;
   position: relative;
   left: 10px;
@@ -128,15 +152,7 @@ h3 {
   text-align: left;
   margin: auto 1em;
 }
-.read-more {
-  padding: 0.8em 2em;
-  max-width: 5em;
-  margin: auto;
-  /* float: right; */
 
-  /* margin: 2em; */
-  background-color: #d8d8d8;
-}
 .view-more {
   padding: 0.8em 5em;
   background-color: #fff;
