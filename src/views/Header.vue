@@ -13,18 +13,25 @@
       <br />Starships and Planets
     </p>
     <form style="display:flex; ">
+      <div style="padding:auto 2em; background:#d8d8d8;">
+        <Search fillColor="black" :size="40" />
+      </div>
       <div class="input">
         <input type="text" placeholder="Search by Name" v-model="search" @keyup="searchHandler()" />
       </div>
       <button @click.prevent="searchHandler()">Search</button>
-
     </form>
   </section>
 </template>
 
 <script>
+import Search from "vue-material-design-icons/Magnify";
+
 export default {
   name: "Jumbotron",
+  components: {
+    Search
+  },
   data() {
     return {
       search: ""
@@ -41,8 +48,7 @@ export default {
   },
 
   props: {
-    msg: String,
-    searchHandler: Function
+    msg: String
   },
   mounted() {
     console.log(this.searchHandler);
@@ -69,7 +75,7 @@ export default {
   /* font-size: 2em; */
   border-bottom: 3px solid white;
 }
-.logo img{
+.logo img {
   width: 5em;
   height: 2em;
 }
@@ -102,10 +108,11 @@ select {
   display: flex;
   padding: 0.5em;
   background: #d8d8d8;
-  width:20em
+  margin-right:3px
 }
 
 input {
+  width: 20em;
   font-size: 0.7em;
   background: #d8d8d8;
   border: none;
