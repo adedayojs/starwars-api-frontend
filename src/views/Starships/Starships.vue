@@ -31,7 +31,6 @@
     </div>
 
     <div style="margin:5em" v-if="!loading && !loadError">
-
       <span style="margin-right:1em;">{{start}} - {{end}} of {{starships.count}}</span>
       <button class="view-more">
         <span
@@ -68,7 +67,6 @@ export default {
 
       filteredStarships: [],
       currentSearch: ""
-
     };
   },
 
@@ -163,7 +161,6 @@ export default {
         this.end = res.results.length;
 
         this.filteredStarships = this.starships.results;
-
       })
       .catch(err => {
         this.loading = false;
@@ -179,8 +176,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-
 .card-image {
   width: 100%;
   height: 15em;
@@ -255,7 +250,22 @@ button span:hover {
   box-shadow: #d8d8d8 2px 2px 0.3em;
   background: #f2f2f2;
 }
-@media screen and (max-width: 400px) {
+@media screen and (min-width: 700px) {
+  .card-container {
+    grid-template-columns: 50% 50%;
+    width: 90%;
+    margin: auto;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .card-container {
+    grid-template-columns: 33% 33% 33%;
+    width: 90%;
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 850px) {
   .card-container {
     display: block;
     width: 90%;
