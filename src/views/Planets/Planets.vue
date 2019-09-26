@@ -1,9 +1,12 @@
 <template>
   <section>
+    <Header />
+
     <h1 class="popular-section-header">Popular {{title}}</h1>
     <div class="card-container">
-      <div class="card-div" v-for="ship in allPlanets" v-bind:key="ship.name">
+      <div class="card-div" v-for="planet in allPlanets" v-bind:key="planet.name">
         <img :src="randomImage()" class="planet-card-image" />
+        <h2 >{{planet.name}}</h2>
       </div>
     </div>
     <!-- Show Spinner if It is loading and show error if loading failed -->
@@ -26,13 +29,16 @@
 
 <script>
 import Icon from "vue-material-design-icons/AlphaX";
+import Header from "../Header";
+
 export default {
   name: "Planets",
   props: {
     title: String
   },
-  components:{
-    Icon
+  components: {
+    Icon,
+    Header
   },
 
   data() {
@@ -46,7 +52,7 @@ export default {
   computed: {},
   methods: {
     fetchMore() {
-      this.loadError = false
+      this.loadError = false;
       this.loading = true;
       fetch(this.planets.next)
         .then(res => res.json())
@@ -56,10 +62,11 @@ export default {
           console.log(this.allPlanets);
           console.log(res);
           this.loading = false;
-        }).catch(err => {
-        this.loading = false;
-        this.loadError = true;
-      });
+        })
+        .catch(err => {
+          this.loading = false;
+          this.loadError = true;
+        });
     },
     randomImage() {
       const imgArr = [
@@ -93,6 +100,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.card-div h2 {
+ position: relative;
+ top:-3em;
+ color: #f2f2f2
+
+}
 .card-image {
   width: 100%;
   height: 15em;
@@ -104,11 +117,10 @@ export default {
 }
 .card-div {
   margin: 2em;
-  background-color: #d8d8d8;
 }
 .card-container {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 33% 33% 33%;
   width: 90%;
   margin: auto;
 }
@@ -147,6 +159,6 @@ h3 {
 }
 h4 {
   font-size: 1em;
-  color:red
+  color: red;
 }
 </style>
