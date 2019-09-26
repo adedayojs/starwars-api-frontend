@@ -2,8 +2,9 @@
   <section>
     <h1 class="popular-section-header">Popular {{title}}</h1>
     <div class="card-container">
-      <div class="card-div" v-for="ship in planets" v-bind:key="ship.name">
+      <div class="card-div" v-for="planet in planets" v-bind:key="planet.name">
         <img :src="randomImage()" class="planet-card-image" />
+        <h2 >{{planet.name}}</h2>
       </div>
     </div>
     <!-- Show Spinner if It is loading and show error if loading failed -->
@@ -83,7 +84,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.card-div h2 {
+ position: relative;
+ top:-3.5em;
+ color: #f2f2f2
 
+}
 .card-image {
   width: 100%;
   height: 15em;
@@ -95,11 +101,10 @@ export default {
 }
 .card-div {
   margin: 2em;
-  background-color: #d8d8d8;
 }
 .card-container {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 33% 33% 33%;
   width: 90%;
   margin: auto;
 }

@@ -58,7 +58,67 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 .jumbotron {
+  height: 50vh;
+  background: url("/img/hero-banner.jpg");
+  font-size: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #d8d8d8;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  border-bottom: 3px solid white;
+}
+img {
+  width: 8em;
+  height: 3em;
+}
+.topmost-logo {
+  position: absolute;
+  left: 2em;
+  top: 2em;
+}
+.search {
+  height: 100%;
+}
+select {
+  font-size: 0.7em;
+  background: #d8d8d8;
+  border: none;
+  margin-right: 1em;
+}
+.input {
+  display: flex;
+  padding: 0.5em;
+  background: #d8d8d8;
+}
+
+input {
+  font-size: 0.7em;
+  background: #d8d8d8;
+  border: none;
+}
+input:focus {
+  outline: none;
+}
+button {
+  font-size: 1em;
+  background: #d8d8d8;
+  border: none;
+  padding: 0.5em;
+}
+button:hover {
+  cursor: pointer;
+}
+
+@media screen and (min-width: 850px) {
+ .jumbotron {
   height: 50vh;
   background: url("/img/hero-banner.jpg");
   font-size: 2em;
@@ -72,7 +132,6 @@ export default {
   display: flex;
   align-items: center;
   color: #fff;
-  /* font-size: 2em; */
   border-bottom: 3px solid white;
 }
 .logo img {
@@ -108,7 +167,7 @@ select {
   display: flex;
   padding: 0.5em;
   background: #d8d8d8;
-  margin-right:3px
+  margin-right: 3px;
 }
 
 input {
@@ -129,5 +188,6 @@ button {
 button:hover {
   cursor: pointer;
   box-shadow: #fff 5px 5px 1em;
+}
 }
 </style>
