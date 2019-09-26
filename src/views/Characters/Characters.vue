@@ -2,7 +2,21 @@
   <section>
     <Header v-on:searcher="searchHandler" />
     <h1 class="popular-section-header">{{title}}</h1>
-
+    <form style="display:flex">
+      <h3>FILTER</h3>
+      <select v-model="gender" class="select" @change="genderFilter">
+        <option value>ALL</option>
+        <option value="male">MALE</option>
+        <option value="female">FEMALE</option>
+        <option value="n/a">ROBOT</option>
+        <option value="hermaphrodite">HERMAPHRODITE</option>
+      </select>
+      <h3>VIEW</h3>
+      <select class="select">
+        <option value="grid">GRID</option>
+        <option value="flex">FLEX</option>
+      </select>
+    </form>
     <div class="card-container">
       <div class="card-div" v-for="character in filteredCharacters" v-bind:key="character.name">
         <img :src="randomImage()" class="planet-card-image" />
@@ -40,7 +54,7 @@
       <button class="view-more">
         <span
           v-if="characters.previous"
-          style="border-right:solid 2px #d8d8d8"
+          style="border-right:solid 2px #000"
           @click="previousItem()"
         >Prev</span>
         <span v-if="characters.next" @click="nextItem()">Next</span>
@@ -69,13 +83,21 @@ export default {
       loadError: false,
       start: 1,
       end: 0,
-
       filteredCharacters: [],
-      currentSearch: ""
+      currentSearch: "",
+      gender: ""
     };
   },
-
+  computed: {},
   methods: {
+    genderFilter() {
+      console.log(this.gender);
+      let reg = new RegExp("^" + this.gender);
+      console.log(reg);
+      this.filteredCharacters = this.characters.results.filter(val =>
+        val.gender.match(reg)
+      );
+    },
     randomImage() {
       const imgArr = [
         "/img/character-1.jpg",
@@ -97,6 +119,7 @@ export default {
           this.characters = res;
           this.loading = false;
           this.searchHandler(this.currentSearch); // Filter again based on current input and current response
+          this.genderFilter(); // Filter again based on current gender
         })
         .catch(err => {
           this.loading = false;
@@ -124,6 +147,7 @@ export default {
             this.characters = res;
             this.loading = false;
             this.searchHandler(this.currentSearch); // Filter again based on input and current response
+            this.genderFilter(); // Filter again based on current gender
           }
         })
         .catch(err => {
@@ -150,8 +174,9 @@ export default {
         });
     },
     searchHandler(search) {
+      let matcher = new RegExp(search, "i");
       this.filteredCharacters = this.characters.results.filter(val =>
-        val.name.match(search)
+        val.name.match(matcher)
       );
       this.currentSearch = search;
     }
@@ -172,15 +197,20 @@ export default {
         this.loadError = true;
         return err;
       });
-  },
-  mounted() {
-    console.log(this.searchHandler);
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.select {
+  margin: auto 2em;
+  font-size: 1em;
+  appearance: none;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 1em;
+}
 .planet-card-image {
   width: 100%;
   height: 100%;
@@ -210,31 +240,37 @@ export default {
   font-size: 1.3em;
 }
 
+/****** Header ********/
 .popular-section-header {
   text-align: center;
   margin: 1em auto;
   font-size: 3em;
 }
 
+/********** Loader Buttons**********/
 .view-more {
-  padding: 0.8em 5em;
+  padding: 0.5em 0em;
   background-color: #fff;
   border: solid #000 2px;
   border-radius: 7px;
-  font-size: 1.5em;
+  font-size: 1em;
   cursor: pointer;
   font-weight: 900;
 }
-.view-more:hover {
+.view-more span:hover {
   background-color: #000;
   color: #fff;
-  /* font-weight: 700; */
-  transition: ease-in-out 1.2s;
+  transition: ease-in-out 0.5s;
+}
+.view-more span {
+  padding: 0.5em 2em;
 }
 h4 {
   font-size: 1em;
   color: red;
 }
+
+/********** Media Queries ********/
 @media screen and (min-width: 1000px) {
   .card-container {
     display: grid;
@@ -251,12 +287,11 @@ h4 {
   .info {
     padding: 5em 1em;
     text-align: left;
-    font-size: 0.7em
+    font-size: 0.7em;
   }
   .info h2 {
     margin: 0;
   }
-
 }
 @media screen and (min-width: 1200px) {
   .card-container {
@@ -274,11 +309,9 @@ h4 {
     padding: 5em 1em;
     text-align: left;
     font-size: 1em;
-
   }
   .info h2 {
     margin: 0;
   }
- 
 }
 </style>
