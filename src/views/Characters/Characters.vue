@@ -4,16 +4,21 @@
     <h1 class="popular-section-header">{{title}}</h1>
 
     <div class="card-container">
-      <div class="card-div" v-for="ship in filteredCharacters" v-bind:key="ship.name">
-        <img class="card-image" :src="randomImage()" />
-        <div class="content">
-          <div>
-            <h3>{{ship.name}}</h3>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
-          </div>
-          <router-link class="link read-more" :to="`/characters/${ship.name}`">
-            <div>Read More --></div>
-          </router-link>
+      <div class="card-div" v-for="character in filteredCharacters" v-bind:key="character.name">
+        <img :src="randomImage()" class="planet-card-image" />
+        <div class="info">
+          <h2>{{character.name}}</h2>
+          <span>Title of Character</span>
+          <p>
+            {{character.gender == 'male'?'His':'Her'}} name is {{character.name}}. {{character.gender == 'male'?'He':'She'}} was born in {{character.birth_year}}. {{character.gender == 'male'?'His':'Her'}} height is {{character.height}}cm. {{character.gender == 'male'?'He':'She'}} has a mass of {{character.mass}}kg. {{character.gender == 'male'?'His':'Her'}} skin color is {{character.skin_color}} and eyecolor is {{character.eye_color}}.
+            <br />
+            <br />
+            {{character.name}} has {{character.vehicles.length>0?character.vehicles.length:'No'}} Vehicle and has {{character.starships.length>0?character.starships.length:'No'}} starships
+            <router-link
+              :to="`${title}/${character.name}`"
+              style="color:black; font-weight:800;"
+            >Read More</router-link>
+          </p>
         </div>
       </div>
     </div>
@@ -176,100 +181,104 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.card-image {
+.planet-card-image {
   width: 100%;
-  height: 15em;
-}
-.card-div {
-  margin: 2em;
-  background-color: #d8d8d8;
+  height: 100%;
+  object-fit: cover;
 }
 .card-container {
-  display: grid;
-  grid-template-columns: 33% 33% 33%;
+  display: block;
   width: 90%;
   margin: auto;
 }
-.content {
+.card-div {
+  margin: auto auto 2em auto;
+  background-color: #d8d8d8;
+  height: auto;
   display: flex;
   flex-direction: column;
-  text-align: justify;
-  position: relative;
-  left: 10px;
-  bottom: 0.4em;
-  background-color: #f2f2f2;
-  padding: 1em 2em 1em 1em;
 }
+.info {
+  padding: 5em 1em;
+  text-align: left;
+}
+.info h2 {
+  margin: 0;
+}
+.info span,
+.info p {
+  font-size: 1.3em;
+}
+
 .popular-section-header {
   text-align: center;
   margin: 1em auto;
   font-size: 3em;
 }
-h3 {
-  text-align: left;
-  margin: auto 1em;
-}
 
-.read-more {
-  padding: 1em;
-  max-width: 5em;
-  align-self: flex-end;
-  background-color: #d8d8d8;
-  flex-basis: auto;
-  max-width: max-content;
-}
-.link {
-  text-decoration: none;
-  color: rgb(3, 3, 3);
+.view-more {
+  padding: 0.8em 5em;
+  background-color: #fff;
+  border: solid #000 2px;
+  border-radius: 7px;
+  font-size: 1.5em;
+  cursor: pointer;
   font-weight: 900;
 }
-.link:hover {
-  color: #fff;
-  box-shadow: 1em 1em 1em;
+.view-more:hover {
   background-color: #000;
-  transform: scale(1.1);
-  transition: all ease-in-out 1s;
-}
-.view-more {
-  padding: 0.5em 0em;
-  background-color: #fff;
-  border: solid #d8d8d8 2px;
-  border-radius: 7px;
-  font-size: 1em;
-  cursor: pointer;
+  color: #fff;
+  /* font-weight: 700; */
+  transition: ease-in-out 1.2s;
 }
 h4 {
   font-size: 1em;
   color: red;
 }
-span {
-  padding: 0.3em;
-  font-size: 2em;
-}
-button span:hover {
-  box-shadow: #d8d8d8 2px 2px 0.3em;
-  background: #f2f2f2;
-}
-@media screen and (min-width: 700px) {
-  .card-container {
-    grid-template-columns: 50% 50%;
-    width: 90%;
-    margin: auto;
-  }
-}
 @media screen and (min-width: 1000px) {
   .card-container {
-    grid-template-columns: 33% 33% 33%;
+    display: grid;
+    grid-template-columns: 50% 50%;
     width: 90%;
-    margin: auto;
+    /* margin: auto; */
   }
-}
+  .card-div {
+    margin: 1em 1em;
+    background-color: #d8d8d8;
+    display: grid;
+    grid-template-columns: 60% 40%;
+  }
+  .info {
+    padding: 5em 1em;
+    text-align: left;
+    font-size: 0.7em
+  }
+  .info h2 {
+    margin: 0;
+  }
 
-@media screen and (max-width: 850px) {
+}
+@media screen and (min-width: 1200px) {
   .card-container {
-    display: block;
+    display: grid;
+    grid-template-columns: 50% 50%;
     width: 90%;
-    margin: auto;
   }
+  .card-div {
+    margin: 2em 1em;
+    background-color: #d8d8d8;
+    display: grid;
+    grid-template-columns: 60% 40%;
+  }
+  .info {
+    padding: 5em 1em;
+    text-align: left;
+    font-size: 1em;
+
+  }
+  .info h2 {
+    margin: 0;
+  }
+ 
 }
 </style>
