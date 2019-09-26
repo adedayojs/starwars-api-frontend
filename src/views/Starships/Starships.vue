@@ -154,14 +154,14 @@ export default {
   },
 
   created() {
+    this.currentSearch = this.$route.query.query || ""; // get query passed down so that we can use them to filter results
     fetch("https://swapi.co/api/starships")
       .then(res => res.json())
       .then(res => {
         this.starships = res;
         this.loading = false;
         this.end = res.results.length;
-
-        this.filteredStarships = this.starships.results;
+        this.searchHandler(this.currentSearch); // Filter again based on input and current response
       })
       .catch(err => {
         this.loading = false;
@@ -169,9 +169,6 @@ export default {
         return err;
       });
   },
-  mounted() {
-    console.log(this.searchHandler);
-  }
 };
 </script>
 
@@ -258,7 +255,7 @@ button span:hover {
     margin: auto;
   }
 }
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1200px) {
   .card-container {
     grid-template-columns: 33% 33% 33%;
     width: 90%;
