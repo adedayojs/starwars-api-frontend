@@ -17,7 +17,18 @@
         <option value="flex">FLEX</option>
       </select>
     </form>
-    <div class="card-container">
+    <div style="margin:5em" v-if="!loading && !loadError">
+      <span style="margin-right:1em;">{{start}} - {{end}} of {{characters.count}}</span>
+      <button class="view-more">
+        <span
+          v-if="characters.previous"
+          style="border-right:solid 2px #000"
+          @click="previousItem()"
+        >Prev</span>
+        <span v-if="characters.next" @click="nextItem()">Next</span>
+      </button>
+    </div>
+    <div class="card-container" v-if="!loading">
       <div class="card-div" v-for="character in filteredCharacters" v-bind:key="character.name">
         <img :src="randomImage()" class="planet-card-image" />
         <div class="info">
