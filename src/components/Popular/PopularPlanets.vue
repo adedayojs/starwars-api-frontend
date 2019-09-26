@@ -133,19 +133,44 @@ h3 {
   /* margin: 2em; */
   background-color: #d8d8d8;
 }
+
+/********** Loader Buttons**********/
 .view-more {
-  padding: 0.8em 5em;
+  padding: 0.5em 2em;
   background-color: #fff;
   border: solid #000 2px;
   border-radius: 7px;
-  font-size: 1.5em;
+  font-size: 1em;
   cursor: pointer;
+  font-weight: 900;
 }
+.view-more:hover {
+  background-color: #000;
+  color: #fff;
+  transition: ease-in-out 0.5s;
+}
+
 h4 {
   font-size: 1em;
   color: red;
 }
-@media screen and (max-width: 400px) {
+
+@media screen and (min-width: 700px) {
+  .card-container {
+    grid-template-columns: 50% 50%;
+    width: 90%;
+    margin: auto;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .card-container {
+    grid-template-columns: 33% 33% 33%;
+    width: 90%;
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 850px) {
   .card-container {
     display: block;
     width: 90%;
