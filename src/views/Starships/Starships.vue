@@ -35,7 +35,7 @@
       <button class="view-more">
         <span
           v-if="starships.previous"
-          style="border-right:solid 2px #d8d8d8"
+          style="border-right:solid 2px #000"
           @click="previousItem()"
         >Prev</span>
         <span v-if="starships.next" @click="nextItem()">Next</span>
@@ -231,13 +231,25 @@ h3 {
   transform: scale(1.1);
   transition: all ease-in-out 1s;
 }
+
+/********** Loader Buttons**********/
 .view-more {
   padding: 0.5em 0em;
   background-color: #fff;
-  border: solid #d8d8d8 2px;
+  border: solid #000 2px;
   border-radius: 7px;
   font-size: 1em;
   cursor: pointer;
+  font-weight: 900;
+  overflow: hidden;
+}
+.view-more span:hover {
+  background-color: #000;
+  color: #fff;
+  transition: ease-in-out 0.5s;
+}
+.view-more span {
+  padding: 0.5em 2em;
 }
 h4 {
   font-size: 1em;
@@ -245,7 +257,7 @@ h4 {
 }
 span {
   padding: 0.3em;
-  font-size: 2em;
+  font-size: 1em;
 }
 button span:hover {
   box-shadow: #d8d8d8 2px 2px 0.3em;
