@@ -258,7 +258,7 @@ button span:hover {
     margin: auto;
   }
 }
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1200px) {
   .card-container {
     grid-template-columns: 33% 33% 33%;
     width: 90%;
