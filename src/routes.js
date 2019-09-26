@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Home from './components/Home/Home.vue';
 import Planets from './views/Planets/Planets.vue';
 import StarShips from './views/Starships/Starships.vue';
+import Characters from './views/Characters/Characters.vue';
 import Router from 'vue-router';
 Vue.use(Router);
 
@@ -21,6 +22,12 @@ export default new Router({
       name: 'Starships',
       component: StarShips,
       props: { title: 'StarShips' }
+    },
+    {
+      path: '/characters',
+      name: 'Characters',
+      component: Characters,
+      props: { title: 'Characters' }
     }
   ]
 });
