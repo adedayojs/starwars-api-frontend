@@ -80,8 +80,9 @@ img {
   height: 3em;
 }
 .topmost-logo {
-  align-self: flex-start;
-  margin: -5em auto 2em 1em;
+  position: absolute;
+  left: 2em;
+  top: 2em;
 }
 .search {
   height: 100%;

@@ -12,7 +12,10 @@
             <br />
             <br />
             {{character.name}} has {{character.vehicles.length>0?character.vehicles.length:'No'}} Vehicle and has {{character.starships.length>0?character.starships.length:'No'}} starships
-            <router-link :to="`${title}/`" style="color:black; font-weight:800;">Read More</router-link>
+            <router-link
+              :to="`${title}/${character.name}`"
+              style="color:black; font-weight:800;"
+            >Read More</router-link>
           </p>
         </div>
       </div>
@@ -108,9 +111,9 @@ export default {
   object-fit: cover;
 }
 .card-div {
-  margin: 2em;
+  margin: 2em 1em;
   background-color: #d8d8d8;
-  height: 30em;
+  height: 40em;
   display: grid;
   grid-template-columns: 60% 40%;
 }
@@ -118,8 +121,12 @@ export default {
   padding: 5em 1em;
   text-align: left;
 }
-h2 {
+.info h2 {
   margin: 0;
+}
+.info span,
+.info p {
+  font-size: 1.3em;
 }
 .card-container {
   display: grid;
@@ -148,8 +155,6 @@ h3 {
 .read-more {
   padding: 0.8em 2em;
   max-width: 5em;
-
-  /* margin: 2em; */
   background-color: #d8d8d8;
 }
 .view-more {
@@ -159,6 +164,13 @@ h3 {
   border-radius: 7px;
   font-size: 1.5em;
   cursor: pointer;
+  font-weight: 900;
+}
+.view-more:hover {
+  background-color: #000;
+  color: #fff;
+  font-weight: 700;
+  transition: ease-in-out 1.2s;
 }
 h4 {
   font-size: 1em;
@@ -174,8 +186,8 @@ h4 {
     margin: auto auto 2em auto;
     background-color: #d8d8d8;
     height: auto;
-    display: grid;
-    grid-template-columns: 60% 40%;
+    display: flex;
+    flex-direction: column;
   }
 }
 </style>
