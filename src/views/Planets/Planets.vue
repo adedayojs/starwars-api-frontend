@@ -6,7 +6,7 @@
     <div class="card-container">
       <div class="card-div" v-for="planet in allPlanets" v-bind:key="planet.name">
         <img :src="randomImage()" class="planet-card-image" />
-        <h2 >{{planet.name}}</h2>
+        <h2 >Name: {{planet.name}}<br/>Climate: {{planet.climate}} <br/> Diameter: {{planet.diameter}} </h2>
       </div>
     </div>
     <!-- Show Spinner if It is loading and show error if loading failed -->
@@ -102,8 +102,9 @@ export default {
 <style scoped>
 .card-div h2 {
  position: relative;
- top:-3em;
- color: #f2f2f2
+ bottom:6em;
+ color: #f2f2f2;
+ font-size: 1.2em;
 
 }
 .card-image {
@@ -160,5 +161,28 @@ h3 {
 h4 {
   font-size: 1em;
   color: red;
+}
+
+@media screen and (min-width: 700px) {
+  .card-container {
+    grid-template-columns: 50% 50%;
+    width: 90%;
+    margin: auto;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .card-container {
+    grid-template-columns: 33% 33% 33%;
+    width: 90%;
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .card-container {
+    display: block;
+    width: 90%;
+    margin: auto;
+  }
 }
 </style>
