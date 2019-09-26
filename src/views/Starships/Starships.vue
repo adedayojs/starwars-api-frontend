@@ -1,16 +1,19 @@
 <template>
   <section>
-    <Header :searchHandler="searchHandler" :msg="'Adedunye'" />
-    <h1 class="popular-section-header">Popular {{title}}</h1>
+    <Header v-on:searcher="searchHandler" />
+    <h1 class="popular-section-header">{{title}}</h1>
+
     <div class="card-container">
-      <div class="card-div" v-for="ship in starships.results" v-bind:key="ship.name">
+      <div class="card-div" v-for="ship in filteredStarships" v-bind:key="ship.name">
         <img class="card-image" :src="randomImage()" />
         <div class="content">
           <div>
             <h3>{{ship.name}}</h3>
             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
           </div>
-          <div class="read-more">Read More</div>
+          <router-link class="link read-more" :to="`/starships/${ship.name}`">
+            <div>Read More --></div>
+          </router-link>
         </div>
       </div>
     </div>
@@ -20,14 +23,15 @@
     </div>
 
     <div v-if="loadError">
-      <ErrorIcon fillColor="red" size="5em" />
+      <ErrorIcon fillColor="red" :size="50" />
       <br />
       <button @click="retry()">
         <h4>Unable to Fetch Starships. Click To Retry</h4>
       </button>
     </div>
 
-    <div style="margin:5em" v-if="!loading">
+    <div style="margin:5em" v-if="!loading && !loadError">
+
       <span style="margin-right:1em;">{{start}} - {{end}} of {{starships.count}}</span>
       <button class="view-more">
         <span
@@ -61,13 +65,10 @@ export default {
       loadError: false,
       start: 1,
       end: 0,
-      searchHandler(e, search) {
-        alert("pause Jare");
-        e.preventDefault();
-        this.starships = this.starships.filter(val =>
-          JSON.stringify(val).match(search)
-        );
-      }
+
+      filteredStarships: [],
+      currentSearch: ""
+
     };
   },
 
@@ -92,14 +93,17 @@ export default {
           this.end += res.results.length;
           this.starships = res;
           this.loading = false;
+          this.searchHandler(this.currentSearch); // Filter again based on current input and current response
         })
         .catch(err => {
           this.loading = false;
           this.loadError = true;
+          console.log(err);
           return err;
         });
     },
     previousItem() {
+      this.filteredStarships = []; // Empty Filtered Array
       this.loading = true;
       this.loadError = false;
       fetch(this.starships.previous)
@@ -107,14 +111,16 @@ export default {
         .then(res => {
           if (!this.starships.next) {
             this.end = res.count - this.starships.results.length;
-            this.start = this.end - res.results.length;
+            this.start -= res.results.length;
             this.starships = res;
             this.loading = false;
+            this.searchHandler(this.currentSearch); // Filter again based on input and current response
           } else {
             this.start -= res.results.length;
             this.end -= res.results.length;
             this.starships = res;
             this.loading = false;
+            this.searchHandler(this.currentSearch); // Filter again based on input and current response
           }
         })
         .catch(err => {
@@ -124,6 +130,8 @@ export default {
         });
     },
     retry() {
+      this.loading = true;
+      this.loadError = false;
       fetch("https://swapi.co/api/starships")
         .then(res => res.json())
         .then(res => {
@@ -137,8 +145,15 @@ export default {
           this.loadError = true;
           return err;
         });
+    },
+    searchHandler(search) {
+      this.filteredStarships = this.starships.results.filter(val =>
+        val.name.match(search)
+      );
+      this.currentSearch = search;
     }
   },
+
   created() {
     fetch("https://swapi.co/api/starships")
       .then(res => res.json())
@@ -146,7 +161,9 @@ export default {
         this.starships = res;
         this.loading = false;
         this.end = res.results.length;
-        console.log(res);
+
+        this.filteredStarships = this.starships.results;
+
       })
       .catch(err => {
         this.loading = false;
@@ -174,11 +191,13 @@ export default {
 }
 .card-container {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 33% 33% 33%;
   width: 90%;
   margin: auto;
 }
 .content {
+  display: flex;
+  flex-direction: column;
   text-align: justify;
   position: relative;
   left: 10px;
@@ -195,11 +214,26 @@ h3 {
   text-align: left;
   margin: auto 1em;
 }
+
 .read-more {
-  padding: 0.8em 2em;
+  padding: 1em;
   max-width: 5em;
-  margin: auto;
+  align-self: flex-end;
   background-color: #d8d8d8;
+  flex-basis: auto;
+  max-width: max-content;
+}
+.link {
+  text-decoration: none;
+  color: rgb(3, 3, 3);
+  font-weight: 900;
+}
+.link:hover {
+  color: #fff;
+  box-shadow: 1em 1em 1em;
+  background-color: #000;
+  transform: scale(1.1);
+  transition: all ease-in-out 1s;
 }
 .view-more {
   padding: 0.5em 0em;
