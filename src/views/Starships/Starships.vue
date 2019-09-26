@@ -145,8 +145,9 @@ export default {
         });
     },
     searchHandler(search) {
+      let matcher = new RegExp(search, "i");
       this.filteredStarships = this.starships.results.filter(val =>
-        val.name.match(search)
+        val.name.match(matcher)
       );
       this.currentSearch = search;
     }
