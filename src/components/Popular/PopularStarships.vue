@@ -99,29 +99,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.read-more {
-  padding: 1em;
-  max-width: 5em;
-  align-self: flex-end;
-  background-color: #d8d8d8;
-  flex-basis: auto;
-  max-width: max-content;
-}
-.link {
-  text-decoration: none;
-  color: rgb(3, 3, 3);
-  font-weight: 900;
-}
-.link:hover {
-  color: #fff;
-  box-shadow: 1em 1em 1em;
-  background-color: #000;
-  transform: scale(1.1);
-  transition: all ease-in-out 1s;
-}
 .card-image {
   width: 100%;
-  height: 20em;
+  height: 15em;
 }
 .card-div {
   margin: 2em;
@@ -153,19 +133,71 @@ h3 {
   margin: auto 1em;
 }
 
+.read-more {
+  padding: 1em;
+  max-width: 5em;
+  align-self: flex-end;
+  background-color: #d8d8d8;
+  flex-basis: auto;
+  max-width: max-content;
+}
+.link {
+  text-decoration: none;
+  color: rgb(3, 3, 3);
+  font-weight: 900;
+}
+.link:hover {
+  color: #fff;
+  box-shadow: 1em 1em 1em;
+  background-color: #000;
+  transform: scale(1.1);
+  transition: all ease-in-out 1s;
+}
+
+/********** Loader Buttons**********/
 .view-more {
-  padding: 0.8em 5em;
+  padding: 0.5em 2em;
   background-color: #fff;
   border: solid #000 2px;
   border-radius: 7px;
-  font-size: 1.5em;
+  font-size: 1em;
   cursor: pointer;
+  font-weight: 900;
 }
+.view-more:hover {
+  background-color: #000;
+  color: #fff;
+  transition: ease-in-out 0.5s;
+}
+
 h4 {
   font-size: 1em;
   color: red;
 }
-@media screen and (max-width: 400px) {
+span {
+  padding: 0.3em;
+  font-size: 2em;
+}
+button span:hover {
+  box-shadow: #d8d8d8 2px 2px 0.3em;
+  background: #f2f2f2;
+}
+@media screen and (min-width: 700px) {
+  .card-container {
+    grid-template-columns: 50% 50%;
+    width: 90%;
+    margin: auto;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .card-container {
+    grid-template-columns: 33% 33% 33%;
+    width: 90%;
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 850px) {
   .card-container {
     display: block;
     width: 90%;
