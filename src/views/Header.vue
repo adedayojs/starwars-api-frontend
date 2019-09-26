@@ -17,6 +17,7 @@
         <input type="text" placeholder="Search by Name" v-model="search" @keyup="searchHandler()" />
       </div>
       <button @click.prevent="searchHandler()">Search</button>
+
     </form>
   </section>
 </template>
@@ -38,8 +39,13 @@ export default {
       this.$emit("searcher", this.search);
     }
   },
+
   props: {
-    msg: String
+    msg: String,
+    searchHandler: Function
+  },
+  mounted() {
+    console.log(this.searchHandler);
   }
 };
 </script>

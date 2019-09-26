@@ -2,6 +2,7 @@
   <section>
     <Header v-on:searcher="searchHandler" />
     <h1 class="popular-section-header">{{title}}</h1>
+
     <div class="card-container">
       <div class="card-div" v-for="ship in filteredStarships" v-bind:key="ship.name">
         <img class="card-image" :src="randomImage()" />
@@ -30,6 +31,7 @@
     </div>
 
     <div style="margin:5em" v-if="!loading && !loadError">
+
       <span style="margin-right:1em;">{{start}} - {{end}} of {{starships.count}}</span>
       <button class="view-more">
         <span
@@ -63,8 +65,10 @@ export default {
       loadError: false,
       start: 1,
       end: 0,
+
       filteredStarships: [],
       currentSearch: ""
+
     };
   },
 
@@ -157,19 +161,26 @@ export default {
         this.starships = res;
         this.loading = false;
         this.end = res.results.length;
+
         this.filteredStarships = this.starships.results;
+
       })
       .catch(err => {
         this.loading = false;
         this.loadError = true;
         return err;
       });
+  },
+  mounted() {
+    console.log(this.searchHandler);
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+
 .card-image {
   width: 100%;
   height: 15em;
