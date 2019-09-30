@@ -2,11 +2,11 @@
 
 
 <script>
-import { starshipFetcher } from "../../helper/dataFetcher";
+import DataFetcher from "../../helper/DataFetcher";
 export default {
   created() {
     try {
-        let data = await dataFetcher()
+        let data = await DataFetcher.people(this.$route.params.id)
     } catch (e) {
       throw e;
     }
