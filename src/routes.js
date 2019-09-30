@@ -32,7 +32,7 @@ export default new Router({
     },
     {
       path: '/characters/:id',
-      name: 'CharacterDetails',
+      name: 'CharacterDetail',
       component: CharacterDetails
     }
   ]
