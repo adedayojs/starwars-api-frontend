@@ -40,7 +40,7 @@
             <br />
             {{character.name}} has {{character.vehicles.length>0?character.vehicles.length:'No'}} Vehicle and has {{character.starships.length>0?character.starships.length:'No'}} starships
             <router-link
-              :to="`${title}/${character.name}`"
+              :to="`${title}/${character.url.match(/\d+/)[0]}`"
               style="color:black; font-weight:800;"
             >Read More</router-link>
           </p>
