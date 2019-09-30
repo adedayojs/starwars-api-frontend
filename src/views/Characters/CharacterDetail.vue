@@ -1,10 +1,26 @@
 <template>
   <section>
     <DetailHeader />
+
+    <!-- Display Spinner if component is loading-->
     <div v-if="loading">
       <img src="/img/spinner.svg" />
       <p>Loading Your Next Character</p>
     </div>
+
+    <!--Navigation Buttons-->
+    <div style="margin:1em 5em" v-if="!loading && !loadError">
+      <button class="view-more">
+        <span
+          v-if="this.$route.params.id>1"
+          style="border-right:solid 2px #000"
+          @click="previousPerson()"
+        >Prev</span>
+        <span v-if="this.$route.params.id<=characters.count" @click="nextPerson()">Next</span>
+      </button>
+    </div>
+
+    <!--Card Component For Character Details-->
     <div v-if="character.name && !loading && !loadError " class="card-div">
       <img :src="randomImage()" class="planet-card-image" />
       <!-- Details About the character -->
@@ -18,7 +34,9 @@
           {{character.name}} has {{character.vehicles.length?character.vehicles.length:'No'}} Vehicle and has {{character.starships.length?character.starships.length:'No'}} starships
         </p>
       </div>
-      <div style="margin:5em" v-if="!loading && !loadError">
+
+      <!--Navigation Buttons-->
+      <div style="margin:1em 5em" v-if="!loading && !loadError">
         <button class="view-more">
           <span
             v-if="this.$route.params.id>1"
@@ -109,16 +127,16 @@ export default {
 .planet-card-image {
   width: 100%;
   height: 100%;
+  margin: auto;
   object-fit: cover;
 }
 .card-div {
-  margin: 2em 1em;
   background-color: #d8d8d8;
   height: 40em;
   display: flex;
   flex-direction: column;
-  max-width: 75%;
-  margin: 5em auto;
+  max-width: 50%;
+  margin: 2em auto;
 }
 .info {
   padding: 5em 1em;

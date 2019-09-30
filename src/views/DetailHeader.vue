@@ -25,7 +25,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .jumbotron {
-  height: 70vh;
+  height: 50vh;
   background: url("/img/hero-banner.jpg");
   font-size: 1em;
   display: flex;
@@ -84,7 +84,7 @@ button:hover {
 
 @media screen and (min-width: 850px) {
   .jumbotron {
-    height: 70vh;
+    height: 50vh;
     background: url("/img/hero-banner.jpg");
     font-size: 2em;
     display: flex;
