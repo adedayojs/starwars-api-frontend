@@ -3,10 +3,18 @@
 
 <script>
 import DataFetcher from "../../helper/DataFetcher";
+
 export default {
-  created() {
+  data() {
+    return {
+      character: {},
+      characters: []
+    };
+  },
+  async created() {
     try {
-        let data = await DataFetcher.people(this.$route.params.id)
+      this.character = await DataFetcher.people(this.$route.params.id);
+      this.characters = await DataFetcher.people();
     } catch (e) {
       throw e;
     }
